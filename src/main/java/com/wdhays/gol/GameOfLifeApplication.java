@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-public class GameOfLife extends Application
+public class GameOfLifeApplication extends Application
 {
     public static void main(String[] args)
     {
@@ -40,7 +40,7 @@ public class GameOfLife extends Application
         //Add a rect that we can change the color of to each grid cell.
         for (int i = 0; i < colCount; i++) {
             for (int j = 0; j < rowCount; j++) {
-                addRectToGrid(i,j);
+                addImageCellsToGrid(i,j);
             }
         }
 
@@ -73,7 +73,7 @@ public class GameOfLife extends Application
         primaryStage.show();
     }
 
-    private void addRectToGrid(int i, int j) {
+    private void addImageCellsToGrid(int i, int j) {
 
         ImageView cellImageView = new ImageView();
         cellImageView.setFitWidth(cellWidth);

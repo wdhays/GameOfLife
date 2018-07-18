@@ -4,9 +4,9 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class GameOfLife extends Application
@@ -23,6 +23,8 @@ public class GameOfLife extends Application
     GridPane gridPane;
     Button testBtn1;
     Button testBtn2;
+    Image cellImageAlive= new Image(getClass().getResource("./images/cell-alive.png").toString(), true);
+    Image cellImageDead= new Image(getClass().getResource("./images/cell-dead.png").toString(), true);
 
     @Override public void start(Stage primaryStage) {
 
@@ -72,17 +74,24 @@ public class GameOfLife extends Application
     }
 
     private void addRectToGrid(int i, int j) {
-        Rectangle rectangle = new Rectangle(cellWidth, cellHeight);
-        rectangle.setFill(Color.WHITE);
-        rectangle.setOnMouseClicked(e -> {
+
+        ImageView cellImageView = new ImageView();
+        cellImageView.setFitWidth(cellWidth);
+        cellImageView.setFitHeight(cellHeight);
+        cellImageView.setImage(cellImageDead);
+
+        cellImageView.setOnMouseClicked(e -> {
             System.out.printf("Mouse clicked in cell [%d, %d]%n", i, j);
-            if(rectangle.getFill().equals(Color.WHITE)) {
-                rectangle.setFill(Color.BLACK);
+            if(cellImageView.getImage() == cellImageAlive) {
+                System.out.println("The cell is alive! Kill it.");
+                cellImageView.setImage(cellImageDead);
             } else {
-                rectangle.setFill(Color.WHITE);
+                System.out.println("The cell is dead! Resurrect it.");
+                cellImageView.setImage(cellImageAlive);
             }
         });
-        gridPane.add(rectangle, i, j);
+
+        gridPane.add(cellImageView, i, j);
     }
 
     private void testButton1Action(){

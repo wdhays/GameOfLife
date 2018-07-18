@@ -4,22 +4,18 @@ public class Cell {
 
     boolean isAlive;
 
-    /**/
-    public Cell(boolean isAlive) {
-        this.isAlive = isAlive;
+    public Cell() {
+        isAlive = false;
     }
 
-    /**/
     public boolean isAlive() {
         return isAlive;
     }
 
-    /**/
-    public void setAlive(boolean alive) {
-        isAlive = alive;
+    public void setAlive(boolean isAlive) {
+        this.isAlive = isAlive;
     }
 
-    /**/
     public void toggleAlive() {
         setAlive(!isAlive);
     }

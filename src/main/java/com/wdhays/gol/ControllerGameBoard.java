@@ -11,7 +11,7 @@ import javafx.scene.layout.RowConstraints;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class ControllerGameBoard implements Initializable {
 
     int rowCount = 60;
     int colCount = 60;
@@ -22,15 +22,6 @@ public class Controller implements Initializable {
 
     @FXML
     private GridPane gridPane;
-
-    @FXML
-    private void testButton1Action(){
-        System.out.println("Test button one was pressed!");
-    }
-    @FXML
-    private void testButton2Action(){
-        System.out.println("Test button two was pressed!");
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

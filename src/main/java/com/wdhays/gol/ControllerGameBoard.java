@@ -13,15 +13,17 @@ import java.util.ResourceBundle;
 
 public class ControllerGameBoard implements Initializable {
 
-    int rowCount = 60;
-    int colCount = 60;
-    int cellWidth = 10;
-    int cellHeight = 10;
     Image cellImageAlive= new Image(getClass().getResource("./images/cell-alive.png").toString(), true);
     Image cellImageDead= new Image(getClass().getResource("./images/cell-dead.png").toString(), true);
 
+    GameOfLife gameOfLife;
+
     @FXML
     private GridPane gridPane;
+
+    public ControllerGameBoard(GameOfLife gameOfLife) {
+        this.gameOfLife = gameOfLife;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -30,16 +32,16 @@ public class ControllerGameBoard implements Initializable {
 
     private void initializeGridPane(){
         // Set up the rows and columns.
-        for (int i = 0; i < colCount; i++) {
-            gridPane.getColumnConstraints().add(new ColumnConstraints(cellWidth));
+        for (int i = 0; i < gameOfLife.getGameBoardSize(); i++) {
+            gridPane.getColumnConstraints().add(new ColumnConstraints(gameOfLife.getCellSize()));
         }
-        for (int i = 0; i < rowCount; i++) {
-            gridPane.getRowConstraints().add(new RowConstraints(cellHeight));
+        for (int i = 0; i < gameOfLife.getGameBoardSize(); i++) {
+            gridPane.getRowConstraints().add(new RowConstraints(gameOfLife.getCellSize()));
         }
 
         //Add an image to each cell with on OnClick mouse event.
-        for (int i = 0; i < colCount; i++) {
-            for (int j = 0; j < rowCount; j++) {
+        for (int i = 0; i < gameOfLife.getGameBoardSize(); i++) {
+            for (int j = 0; j < gameOfLife.getGameBoardSize(); j++) {
                 addImageCellsToGrid(i,j);
             }
         }
@@ -48,8 +50,8 @@ public class ControllerGameBoard implements Initializable {
     private void addImageCellsToGrid(int i, int j) {
 
         ImageView cellImageView = new ImageView();
-        cellImageView.setFitWidth(cellWidth);
-        cellImageView.setFitHeight(cellHeight);
+        cellImageView.setFitWidth(gameOfLife.getCellSize());
+        cellImageView.setFitHeight(gameOfLife.getCellSize());
         cellImageView.setImage(cellImageDead);
 
         cellImageView.setOnMouseClicked(e -> {

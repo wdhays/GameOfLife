@@ -7,11 +7,10 @@
 <VBox fx:id="controlPanel" id="controlPanel"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="main.java.com.wdhays.gol.ControllerControlPanel"
       prefWidth="200.0" prefHeight="600.0"
       spacing="10">
 
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
-    <Button fx:id="testBtn1" id="testBtn1" text="Button 1" onAction="#testButton1Action"/>
-    <Button fx:id="testBtn2" id="testBtn2" text="Button 2" onAction="#testButton2Action"/>
+    <Button fx:id="testBtn1" id="testBtn1" text="Button 1"/>
+    <Button fx:id="testBtn2" id="testBtn2" text="Button 2"/>
 </VBox>

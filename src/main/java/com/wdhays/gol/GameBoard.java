@@ -2,30 +2,21 @@ package main.java.com.wdhays.gol;
 
 public class GameBoard {
 
-    Cell[][] gameBoard;
-    int rowCount;
-    int colCount;
+    private Cell[][] grid;
 
-    public GameBoard(int rowCount, int colCount) {
-        this.rowCount = rowCount;
-        this.colCount = colCount;
-        gameBoard = new Cell[colCount][rowCount];
+    public GameBoard(int size) {
+        this.grid = new Cell[size][size];
     }
 
-    public Cell[][] getGameBoard() {
-        return gameBoard;
+    public Cell[][] getGrid() {
+        return grid;
     }
 
-    public void setGameBoard(Cell[][] gameBoard) {
-        this.gameBoard = gameBoard;
+    public void setGrid(Cell[][] grid) {
+        this.grid = grid;
     }
 
-    public int getRowCount() {
-        return rowCount;
+    public GameBoard getGameBoard() {
+        return this;
     }
-
-    public int getColCount() {
-        return colCount;
-    }
-
 }

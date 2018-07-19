@@ -3,17 +3,17 @@ package main.java.com.wdhays.gol;
 public class GameOfLife {
 
     private GameBoard gameBoard;
-    private int gameBoardSize;
+    private int gridSize;
     private int cellSize;
 
-    public GameOfLife(int gameBoardSize, int cellSize) {
-        this.gameBoardSize = gameBoardSize;
+    public GameOfLife(int gridSize, int cellSize) {
+        this.gridSize = gridSize;
         this.cellSize = cellSize;
-        this.gameBoard = new GameBoard(gameBoardSize);
+        this.gameBoard = new GameBoard(gridSize);
     }
 
-    public int getGameBoardSize() {
-        return gameBoardSize;
+    public int getGridSize() {
+        return gridSize;
     }
 
     public int getCellSize() {

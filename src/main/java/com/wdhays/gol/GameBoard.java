@@ -15,8 +15,4 @@ public class GameBoard {
     public void setGrid(Cell[][] grid) {
         this.grid = grid;
     }
-
-    public GameBoard getGameBoard() {
-        return this;
-    }
 }

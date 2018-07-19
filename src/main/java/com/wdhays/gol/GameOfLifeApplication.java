@@ -9,12 +9,7 @@ import javafx.stage.Stage;
 
 public class GameOfLifeApplication extends Application
 {
-    public static void main(String[] args)
-    {
-        launch(args);
-    }
-
-    GameOfLife gameOfLife;
+    private GameOfLife gameOfLife;
 
     @Override
     public void init(){
@@ -53,5 +48,10 @@ public class GameOfLifeApplication extends Application
         primaryStage.setResizable(false);
         primaryStage.setTitle("Game of Life");
         primaryStage.show();
+    }
+
+    public static void main(String[] args)
+    {
+        launch(args);
     }
 }

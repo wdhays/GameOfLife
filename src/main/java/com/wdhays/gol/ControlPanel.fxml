@@ -19,7 +19,7 @@
         <HBox spacing="10">
             <Button fx:id="playButton" id="playButton" text="Play" prefWidth="56"/>
             <Button fx:id="pauseButton" id="pauseButton" text="Pause" prefWidth="56"/>
-            <Button fx:id="stopButton" id="stopButton" text="Stop" prefWidth="56"/>
+            <Button fx:id="clearButton" id="clearButton" text="Clear" prefWidth="56"/>
         </HBox>
         <!--Speed-->
         <Label fx:id="speedLabel" id="speedLabel" text="Speed"/>

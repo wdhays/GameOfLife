@@ -23,7 +23,7 @@ public class ControllerControlPanel implements Initializable {
     @FXML
     private Button pauseButton;
     @FXML
-    private Button stopButton;
+    private Button clearButton;
     @FXML
     private Slider speedSlider;
     @FXML
@@ -46,7 +46,7 @@ public class ControllerControlPanel implements Initializable {
         //Set up action listeners for the play, pause, and stop buttons.
         playButton.setOnAction(event -> playBtnOnAction());
         pauseButton.setOnAction(event -> pauseBtnOnAction());
-        stopButton.setOnAction(event -> stopBtnOnAction());
+        clearButton.setOnAction(event -> clearBtnOnAction());
         //Set up action listeners for the save and load buttons.
         saveButton.setOnAction(event -> saveBtnOnAction());
         loadButton.setOnAction(event -> loadBtnOnAction());
@@ -81,16 +81,19 @@ public class ControllerControlPanel implements Initializable {
     private void playBtnOnAction() {
         System.out.println("Play button was pressed!");
         //TODO
+        gameOfLife.play();
     }
 
     private void pauseBtnOnAction() {
         System.out.println("Pause button was pressed!");
         //TODO
+        gameOfLife.pause();
     }
 
-    private void stopBtnOnAction() {
-        System.out.println("Stop button was pressed!");
+    private void clearBtnOnAction() {
+        System.out.println("Clear button was pressed!");
         //TODO
+        gameOfLife.clear();
     }
 
     private void initializeSpeedSlider(){

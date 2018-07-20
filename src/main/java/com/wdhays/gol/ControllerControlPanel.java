@@ -10,6 +10,8 @@ import javafx.util.StringConverter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static main.java.com.wdhays.gol.GameSpeed.*;
+
 public class ControllerControlPanel implements Initializable {
 
     private GameOfLife gameOfLife;
@@ -65,7 +67,24 @@ public class ControllerControlPanel implements Initializable {
     private void speedSliderChangeAction() {
         System.out.println("The speed slider value was changed!");
         System.out.println("The new value is " + speedSlider.getValue());
-        //TODO
+        int switchCase = (int)speedSlider.getValue();
+        switch (switchCase) {
+            case 0:
+                gameOfLife.initializeTimeline(SLOW);
+                break;
+            case 1:
+                gameOfLife.initializeTimeline(MEDSLOW);
+                break;
+            case 2:
+                gameOfLife.initializeTimeline(MEDIUM);
+                break;
+            case 3:
+                gameOfLife.initializeTimeline(MEDFAST);
+                break;
+            case 4:
+                gameOfLife.initializeTimeline(FAST);
+                break;
+        }
     }
 
     private void saveBtnOnAction() {

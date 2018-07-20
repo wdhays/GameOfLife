@@ -13,8 +13,8 @@ A list of features I would like to add.
 - [x] click to kill/resurrect cell
 - [ ] wrap around game board
 - [ ] save/load buttons
-- [ ] play/pause buttons
-- [ ] speed up /slow down
+- [x] play/pause buttons
+- [x] speed up /slow down slider
 - [ ] cell stamps
 - [ ] ability to use different GOL rules
 - [ ] drag to kill/resurrect a rectangular patch of cells

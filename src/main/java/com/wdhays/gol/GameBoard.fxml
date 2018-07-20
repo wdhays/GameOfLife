@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <VBox fx:id="stackPane" id="stackPane"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -26,15 +24,3 @@
         </HBox>
     </children>
 </VBox>
-
-
-        <!--<?xml version="1.0" encoding="UTF-8"?>-->
-
-        <!--<?import javafx.scene.layout.GridPane?>-->
-
-        <!--<GridPane fx:id="gridPane" id="gridPane"-->
-        <!--xmlns="http://javafx.com/javafx"-->
-        <!--xmlns:fx="http://javafx.com/fxml"-->
-        <!--prefWidth="600.0" prefHeight="600.0">-->
-        <!--&lt;!&ndash;<gridLinesVisible>true</gridLinesVisible>&ndash;&gt;-->
-        <!--</GridPane>-->

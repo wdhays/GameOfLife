@@ -4,6 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.image.ImageView?>
 <VBox fx:id="controlPanel" id="controlPanel"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -11,18 +13,32 @@
       spacing="10">
     <padding><Insets top="25" right="10" bottom="25" left="10"/></padding>
     <children>
+        <!--Main-->
+        <Label fx:id="mainLabel" id="mainLabel" text="Conway's Game Of Life"/>
+        <!--Play, pause, and stop-->
         <HBox spacing="10">
             <Button fx:id="playButton" id="playButton" text="Play" prefWidth="56"/>
             <Button fx:id="pauseButton" id="pauseButton" text="Pause" prefWidth="56"/>
             <Button fx:id="stopButton" id="stopButton" text="Stop" prefWidth="56"/>
         </HBox>
-        <Label text="Speed"/>
+        <!--Speed-->
+        <Label fx:id="speedLabel" id="speedLabel" text="Speed"/>
         <Slider fx:id="speedSlider" id="speedSlider" prefWidth="190"/>
+        <!--Rules-->
+        <Label fx:id="rulesLabel" id="rulesLabel" text="Rules"/>
+        <ComboBox fx:id="rulesCombo" id="rulesCombo" prefWidth="190"/>
+        <!--Stamps-->
+        <Label fx:id="stampsLabel" id="stampsLabel" text="Stamps"/>
+        <ComboBox fx:id="stampsCombo" id="stampsCombo" prefWidth="190"/>
+        <ImageView fx:id="stampsImageView" id="stampsImageView" fitWidth="180" fitHeight="180"/>
+        <HBox alignment="CENTER">
+            <Button fx:id="addStampButton" id="addStampButton" text="Add" prefWidth="90"/>
+        </HBox>
+        <!--Database-->
+        <Label fx:id="databaseLabel" id="databaseLabel" text="Database"/>
         <HBox spacing="10">
             <Button fx:id="saveButton" id="saveButton" text="Save" prefWidth="90"/>
             <Button fx:id="loadButton" id="loadButton" text="Load" prefWidth="90"/>
         </HBox>
-        <Label text="Rules"/>
-        <ComboBox fx:id="rulesCombo" id="rulesCombo" prefWidth="190"/>
     </children>
 </VBox>

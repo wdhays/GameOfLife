@@ -1,7 +1,5 @@
 package main.java.com.wdhays.gol;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -21,34 +19,60 @@ public class ControllerControlPanel implements Initializable {
     }
 
     @FXML
-    Button playButton;
+    private Button playButton;
     @FXML
-    Button pauseButton;
+    private Button pauseButton;
     @FXML
-    Button stopButton;
+    private Button stopButton;
     @FXML
-    Slider speedSlider;
+    private Slider speedSlider;
     @FXML
-    Button saveButton;
+    private Button saveButton;
     @FXML
-    Button loadButton;
+    private Button loadButton;
     @FXML
-    ComboBox rulesCombo;
+    private ComboBox rulesCombo;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //TODO
         //Set up speedSlider options and property change listener.
         initializeSpeedSlider();
-        speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> ov,
-                                Number old_val, Number new_val) {
-                System.out.println(new_val.doubleValue());
-            }
-        });
+        speedSlider.valueProperty().addListener((ObsV, oldVal, newVal) ->
+                speedSlider.setValue(newVal.intValue()));
+        //Set up action listeners for the play, pause, and stop buttons.
+        playButton.setOnAction(event -> playBtnOnAction());
+        pauseButton.setOnAction(event -> pauseBtnOnAction());
+        stopButton.setOnAction(event -> stopBtnOnAction());
+        //Set up action listeners for the save and load buttons.
+        saveButton.setOnAction(event -> saveBtnOnAction());
+        loadButton.setOnAction(event -> loadBtnOnAction());
+        //Set up the rules combo box to be populated by the RuleSet enum.
+        rulesCombo.getItems().setAll(RuleSet.values());
+        rulesCombo.getSelectionModel().selectFirst();
     }
 
-    public void initializeSpeedSlider(){
+    private void saveBtnOnAction() {
+        System.out.println("Save button was pressed!");
+    }
+
+    private void loadBtnOnAction() {
+        System.out.println("Load button was pressed!");
+    }
+
+    private void playBtnOnAction() {
+        System.out.println("Play button was pressed!");
+    }
+
+    private void pauseBtnOnAction() {
+        System.out.println("Pause button was pressed!");
+    }
+
+    private void stopBtnOnAction() {
+        System.out.println("Stop button was pressed!");
+    }
+
+    private void initializeSpeedSlider(){
         // Set up the speedSlider options
         speedSlider.setMin(0);
         speedSlider.setMax(4);
@@ -74,17 +98,17 @@ public class ControllerControlPanel implements Initializable {
             public Double fromString(String s) {
                 switch (s) {
                     case "Slow":
-                        return 800d;
+                        return 0d;
                     case "MedSlow":
-                        return 400d;
+                        return 1d;
                     case "Med":
-                        return 200d;
+                        return 2d;
                     case "MedFast":
-                        return 100d;
+                        return 3d;
                     case "Fast":
-                        return 50d;
+                        return 4d;
                     default:
-                        return 50d;
+                        return 0d;
                 }
             }
         });

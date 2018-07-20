@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.GridPane?>
-
 <GridPane fx:id="gridPane" id="gridPane"
           xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"

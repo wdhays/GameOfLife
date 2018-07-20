@@ -9,9 +9,9 @@
 <VBox fx:id="controlPanel" id="controlPanel"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      prefWidth="200.0" prefHeight="600.0"
+      prefWidth="200.0" prefHeight="625.0"
       spacing="10">
-    <padding><Insets top="25" right="10" bottom="25" left="10"/></padding>
+    <padding><Insets top="0" right="25" bottom="25" left="25"/></padding>
     <children>
         <!--Main-->
         <Label fx:id="mainLabel" id="mainLabel" text="Conway's Game Of Life"/>

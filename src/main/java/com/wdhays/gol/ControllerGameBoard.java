@@ -2,6 +2,7 @@ package main.java.com.wdhays.gol;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
@@ -23,6 +24,12 @@ public class ControllerGameBoard implements Initializable {
 
     @FXML
     private GridPane gridPane;
+    @FXML
+    private Label gameSpeedLabel;
+    @FXML
+    private Label gameStateLabel;
+    @FXML
+    private Label generationLabel;
 
     public ControllerGameBoard(GameOfLife gameOfLife) {
         this.gameOfLife = gameOfLife;
@@ -30,7 +37,10 @@ public class ControllerGameBoard implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //Set up the grid.
         initializeGridPane();
+        //Set up the grid labels.
+
     }
 
     private void initializeGridPane(){

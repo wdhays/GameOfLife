@@ -2,6 +2,7 @@ package main.java.com.wdhays.gol;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -22,6 +23,7 @@ public class GameOfLifeApplication extends Application
 
         // Create an instance of the pane that will be the root.
         BorderPane mainPane = new BorderPane();
+        mainPane.setPadding(new Insets(25, 25, 25, 25));
 
         // Set up the FXML loader for the GameBoard FXML
         FXMLLoader gridLoader = new FXMLLoader(getClass().getResource("GameBoard.fxml"));
@@ -42,7 +44,7 @@ public class GameOfLifeApplication extends Application
         mainPane.setRight(controlPanelLayout);
 
         //Create a scene and add the main pane.
-        Scene mainScene =  new Scene(mainPane, 800, 600);
+        Scene mainScene =  new Scene(mainPane, 855, 675);
         // Set up the stage.
         primaryStage.setScene(mainScene);
         primaryStage.setResizable(false);

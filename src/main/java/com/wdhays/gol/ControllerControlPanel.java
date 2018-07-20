@@ -1,5 +1,7 @@
 package main.java.com.wdhays.gol;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -35,11 +37,14 @@ public class ControllerControlPanel implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //TODO
         //Set up speedSlider options and property change listener.
         initializeSpeedSlider();
-        speedSlider.valueProperty().addListener((ObsV, oldVal, newVal) ->
-                speedSlider.setValue(newVal.intValue()));
+        speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+                speedSlider.setValue(newValue.intValue());
+                if(newValue.intValue() != oldValue.intValue()) {
+                    speedSliderChangeAction();
+                }
+        });
         //Set up action listeners for the play, pause, and stop buttons.
         playButton.setOnAction(event -> playBtnOnAction());
         pauseButton.setOnAction(event -> pauseBtnOnAction());
@@ -50,26 +55,44 @@ public class ControllerControlPanel implements Initializable {
         //Set up the rules combo box to be populated by the RuleSet enum.
         rulesCombo.getItems().setAll(RuleSet.values());
         rulesCombo.getSelectionModel().selectFirst();
+        rulesCombo.valueProperty().addListener((observable, oldValue, newValue) -> rulesComboChangeAction());
+    }
+
+    private void rulesComboChangeAction() {
+        System.out.println("The rules combo value was changed!");
+        System.out.println("The new value is " + rulesCombo.getValue());
+        //TODO
+    }
+
+    private void speedSliderChangeAction() {
+        System.out.println("The speed slider value was changed!");
+        System.out.println("The new value is " + speedSlider.getValue());
+        //TODO
     }
 
     private void saveBtnOnAction() {
         System.out.println("Save button was pressed!");
+        //TODO
     }
 
     private void loadBtnOnAction() {
         System.out.println("Load button was pressed!");
+        //TODO
     }
 
     private void playBtnOnAction() {
         System.out.println("Play button was pressed!");
+        //TODO
     }
 
     private void pauseBtnOnAction() {
         System.out.println("Pause button was pressed!");
+        //TODO
     }
 
     private void stopBtnOnAction() {
         System.out.println("Stop button was pressed!");
+        //TODO
     }
 
     private void initializeSpeedSlider(){

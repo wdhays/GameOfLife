@@ -24,23 +24,30 @@ public class GameOfLife {
         this.gameBoard = new GameBoard(gridSize);
         this.ruleSet = RuleSet.STANDARD;
         this.gameSpeed = new SimpleObjectProperty<>();
-        this.gameSpeed.set(GameSpeed.SLOW);
         this.generation = new SimpleLongProperty();
         this.generation.set(0);
-        initializeTimeline(gameSpeed.get());
+        initializeTimeline(GameSpeed.SLOW);
     }
 
     public void initializeTimeline(GameSpeed gameSpeed) {
+
+        //Set the game speed to the method parameter.
+        this.gameSpeed.set(gameSpeed);
+        //Stop any old timeline if it is still running.
         if(timeLine != null) {
             timeLine.stop();
         }
+        //Set up a new KeyFrame with he desired game speed interval.
         KeyFrame keyFrame = new KeyFrame(Duration.millis(gameSpeed.toValue()), e -> {
+            //This is the stuff that will be done each interval.
             System.out.println("Frame!");
             nextGeneration();
             generation.set(generation.get() + 1);
         });
+        //Attach the keyframe to the Timeline.
         timeLine = new Timeline(keyFrame);
         timeLine.setCycleCount(Timeline.INDEFINITE);
+        //If the game was running before make it run again.
         if(gameRunning.get()) {
             timeLine.play();
         }

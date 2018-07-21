@@ -67,28 +67,17 @@ public class ControllerControlPanel implements Initializable {
     private void speedSliderChangeAction() {
         System.out.println("The speed slider value was changed!");
         System.out.println("The new value is " + speedSlider.getValue());
-        int switchCase = (int)speedSlider.getValue();
-        switch (switchCase) {
-            case 0:
-                gameOfLife.setGameSpeed(SLOW);
-                gameOfLife.initializeTimeline(SLOW);
-                break;
-            case 1:
-                gameOfLife.setGameSpeed(MEDSLOW);
-                gameOfLife.initializeTimeline(MEDSLOW);
-                break;
-            case 2:
-                gameOfLife.setGameSpeed(MEDIUM);
-                gameOfLife.initializeTimeline(MEDIUM);
-                break;
-            case 3:
-                gameOfLife.setGameSpeed(MEDFAST);
-                gameOfLife.initializeTimeline(MEDFAST);
-                break;
-            case 4:
-                gameOfLife.setGameSpeed(FAST);
-                gameOfLife.initializeTimeline(FAST);
-                break;
+        int speedSliderValue = (int)speedSlider.getValue();
+        if (speedSliderValue == 0) {
+            gameOfLife.initializeTimeline(SLOW);
+        } else if (speedSliderValue == 1) {
+            gameOfLife.initializeTimeline(MEDSLOW);
+        } else if (speedSliderValue == 2) {
+            gameOfLife.initializeTimeline(MEDIUM);
+        } else if (speedSliderValue == 3) {
+            gameOfLife.initializeTimeline(MEDFAST);
+        } else if (speedSliderValue == 4) {
+            gameOfLife.initializeTimeline(FAST);
         }
     }
 
@@ -140,11 +129,11 @@ public class ControllerControlPanel implements Initializable {
             }
             @Override
             public Double fromString(String s) {
-                if (s == GameSpeed.SLOW.toString()) return 0d;
-                if (s == GameSpeed.MEDSLOW.toString()) return 1d;
-                if (s == GameSpeed.MEDIUM.toString()) return 2d;
-                if (s == GameSpeed.MEDFAST.toString()) return 3d;
-                if (s == GameSpeed.FAST.toString()) return 4d;
+                if (s.equals(GameSpeed.SLOW.toString())) return 0d;
+                if (s.equals(GameSpeed.MEDSLOW.toString())) return 1d;
+                if (s.equals(GameSpeed.MEDIUM.toString())) return 2d;
+                if (s.equals(GameSpeed.MEDFAST.toString())) return 3d;
+                if (s.equals(GameSpeed.FAST.toString())) return 4d;
                 return 0d;
             }
         });

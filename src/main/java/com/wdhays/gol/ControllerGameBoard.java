@@ -25,11 +25,11 @@ public class ControllerGameBoard implements Initializable {
     @FXML
     private GridPane gridPane;
     @FXML
-    private Label gameSpeedLabel;
+    private Label gameSpeedLabelValue;
     @FXML
-    private Label gameStateLabel;
+    private Label gameStateLabelValue;
     @FXML
-    private Label generationLabel;
+    private Label generationLabelValue;
 
     public ControllerGameBoard(GameOfLife gameOfLife) {
         this.gameOfLife = gameOfLife;
@@ -39,8 +39,22 @@ public class ControllerGameBoard implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //Set up the grid.
         initializeGridPane();
-        //Set up the grid labels.
-
+        //Set up generation value label listener.
+        gameOfLife.generationProperty().addListener(e ->
+                generationLabelValue.setText(Long.toString(gameOfLife.getGeneration())));
+        //Set up game state value label listener.
+        gameOfLife.gameRunningProperty().addListener(e -> {
+                    String newLabelString;
+                    if(gameOfLife.isGameRunning()){
+                        newLabelString = "Running";
+                    } else {
+                        newLabelString = "Paused";
+                    }
+                    gameStateLabelValue.setText(newLabelString);
+            });
+        //Set up game speed value label listener.
+        gameOfLife.gameSpeedProperty().addListener(e ->
+                gameSpeedLabelValue.setText(gameOfLife.getGameSpeed().toString()));
     }
 
     private void initializeGridPane(){

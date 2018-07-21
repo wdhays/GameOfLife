@@ -10,16 +10,22 @@
         <GridPane fx:id="gridPane" id="gridPane" prefWidth="600.0" prefHeight="600.0"/>
         <HBox fx:id="gridInfo" id="gridInfo" prefWidth="600.0" prefHeight="25.0" alignment="CENTER">
             <VBox alignment="CENTER" prefWidth="150">
-                <Label fx:id="gameSpeedLabel" id="gameSpeedLabel" text="Game Speed: "/>
-                <Label fx:id="gameSpeedLabelValue" id="gameSpeedLabel" text=""/>
+                <HBox>
+                    <Label fx:id="generationLabel" id="generationLabel" text="Generation: "/>
+                    <Label fx:id="generationLabelValue" id="generationLabelValue" text="0"/>
+                </HBox>
             </VBox>
             <VBox alignment="CENTER" prefWidth="150">
-                <Label fx:id="gameStateLabel" id="gameStateLabel" text="Game State: "/>
-                <Label fx:id="gameStateLabelValue" id="gameStateLabel" text=""/>
+                <HBox>
+                    <Label fx:id="gameSpeedLabel" id="gameSpeedLabel" text="Game Speed: "/>
+                    <Label fx:id="gameSpeedLabelValue" id="gameSpeedLabelValue" text="Slow"/>
+                </HBox>
             </VBox>
             <VBox alignment="CENTER" prefWidth="150">
-                <Label fx:id="generationLabel" id="generationLabel" text="Generation: "/>
-                <Label fx:id="generationLabelValue" id="generationLabel" text=""/>
+                <HBox>
+                    <Label fx:id="gameStateLabel" id="gameStateLabel" text="Game State: "/>
+                    <Label fx:id="gameStateLabelValue" id="gameStateLabelValue" text="Paused"/>
+                </HBox>
             </VBox>
         </HBox>
     </children>

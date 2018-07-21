@@ -1,16 +1,18 @@
 package main.java.com.wdhays.gol;
 
 public enum GameSpeed {
-    SLOW(800),
-    MEDSLOW(400),
-    MEDIUM(200),
-    MEDFAST(100),
-    FAST(50);
+    SLOW(800, "Slow"),
+    MEDSLOW(400, "MedSlow"),
+    MEDIUM(200, "Medium"),
+    MEDFAST(100, "MedFast"),
+    FAST(50, "Fast");
 
     private int speed;
+    private String label;
 
-    GameSpeed(int speed) {
+    GameSpeed(int speed, String label) {
         this.speed = speed;
+        this.label = label;
     }
 
     public int toValue() {
@@ -18,6 +20,6 @@ public enum GameSpeed {
     }
 
     public String toString() {
-        return Integer.toString(speed);
+        return label;
     }
 }

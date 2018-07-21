@@ -3,23 +3,18 @@ package main.java.com.wdhays.gol;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerGameBoard implements Initializable {
 
-    private Image cellImageAlive= new Image(
-            getClass().getResource("./images/cell-alive.png").toString(), true
-    );
-    private Image cellImageDead= new Image(
-            getClass().getResource("./images/cell-dead.png").toString(), true
-    );
     private GameOfLife gameOfLife;
 
     @FXML
@@ -71,35 +66,39 @@ public class ControllerGameBoard implements Initializable {
         //Add an image to each cell with on OnClick mouse event.
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
-                addImageCellsToGrid(i,j);
+                addRectToGrid(i,j);
             }
         }
     }
 
-    private void addImageCellsToGrid(int i, int j) {
+    private void addRectToGrid(int i, int j) {
 
         int cellSize = gameOfLife.getCellSize();
 
-        // All cells will initially be dead.
-        // Set up an ImageView for each cell.
-        ImageView cellImageView = new ImageView();
-        cellImageView.setFitWidth(cellSize);
-        cellImageView.setFitHeight(cellSize);
-        cellImageView.setImage(cellImageDead);
+        // All cells will initially be dead, build a Rectangle for each.
+        Rectangle cellRect = new Rectangle();
+        cellRect.setHeight(cellSize);
+        cellRect.setWidth(cellSize);
+        cellRect.setFill(Color.WHITE);
 
         // Add mouse on click to toggle cells.
-        cellImageView.setOnMouseClicked(e -> {
-            System.out.printf("Mouse clicked in cell [%d, %d]%n", i, j);
-            if(cellImageView.getImage() == cellImageAlive) {
+        cellRect.setOnMouseClicked(e -> {
+            if(gameOfLife.getCellState(i, j)) {
                 System.out.println("The cell is alive! Kill it.");
-                cellImageView.setImage(cellImageDead);
+                gameOfLife.toggleCellState(i, j);
+                cellRect.setFill(Color.WHITE);
             } else {
                 System.out.println("The cell is dead! Resurrect it.");
-                cellImageView.setImage(cellImageAlive);
+                gameOfLife.toggleCellState(i, j);
+                cellRect.setStroke(Color.WHITE);
+                cellRect.setStrokeType(StrokeType.INSIDE);
+                cellRect.setStrokeWidth(0.5);
+                cellRect.setFill(Color.BLACK);
+                cellRect.setSmooth(false);
             }
         });
 
-        // Add the ImageView to the grid at the col/row.
-        gridPane.add(cellImageView, i, j);
+        // Add the Rectangle to the grid at the col/row.
+        gridPane.add(cellRect, i, j);
     }
 }

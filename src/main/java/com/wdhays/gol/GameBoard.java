@@ -8,6 +8,11 @@ public class GameBoard {
     public GameBoard(int gridSize) {
         this.gridSize = gridSize;
         this.grid = new Cell[gridSize][gridSize];
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                grid[i][j] = new Cell();
+            }
+        }
     }
 
     public Cell[][] getGrid() {

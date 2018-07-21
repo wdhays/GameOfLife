@@ -10,22 +10,27 @@ public class GameOfLife {
     private GameBoard gameBoard;
     private ObjectProperty<GameSpeed> gameSpeed;
     private Timeline timeLine;
-    private RuleSet ruleSet;  //TODO make a property
+    private ObjectProperty<RuleSet> ruleSet;  //TODO make a property
     private BooleanProperty gameRunning;
     private LongProperty generation;
     private int gridSize;
     private int cellSize;
 
     public GameOfLife(int gridSize, int cellSize) {
+        //Set up the gameBoard
         this.gridSize = gridSize;
         this.cellSize = cellSize;
+        this.gameBoard = new GameBoard(gridSize);
+        //Set up the properties.
         this.gameRunning = new SimpleBooleanProperty();
         this.gameRunning.set(false);
-        this.gameBoard = new GameBoard(gridSize);
-        this.ruleSet = RuleSet.STANDARD;
+        this.ruleSet = new SimpleObjectProperty<>();
+        this.ruleSet.set(RuleSet.STANDARD);
         this.gameSpeed = new SimpleObjectProperty<>();
+        this.gameSpeed.set(GameSpeed.SLOW);
         this.generation = new SimpleLongProperty();
         this.generation.set(0);
+        //Call method to initialize a TimeLine.
         initializeTimeline(GameSpeed.SLOW);
     }
 
@@ -110,11 +115,47 @@ public class GameOfLife {
         this.gameSpeed.set(gameSpeed);
     }
 
+    public RuleSet getRuleSet() {
+        return ruleSet.get();
+    }
+
+    public ObjectProperty<RuleSet> ruleSetProperty() {
+        return ruleSet;
+    }
+
+    public void setRuleSet(RuleSet ruleSet) {
+        this.ruleSet.set(ruleSet);
+    }
+
     public int getGridSize() {
         return gridSize;
     }
 
+    public void setGridSize(int gridSize) {
+        this.gridSize = gridSize;
+    }
+
     public int getCellSize() {
         return cellSize;
+    }
+
+    public void setCellSize(int cellSize) {
+        this.cellSize = cellSize;
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public boolean getCellState(int i, int j) {
+        return gameBoard.getGrid()[i][j].isAlive();
+    }
+
+    public void toggleCellState(int i, int j) {
+        gameBoard.getGrid()[i][j].toggleAlive();
+    }
+
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
     }
 }

@@ -2,7 +2,7 @@ package main.java.com.wdhays.gol;
 
 public class Cell {
 
-    boolean isAlive;
+    private boolean isAlive;
 
     public Cell() {
         isAlive = false;

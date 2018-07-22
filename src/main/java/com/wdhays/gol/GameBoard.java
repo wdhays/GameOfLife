@@ -20,10 +20,32 @@ public class GameBoard {
     }
 
     public void setGrid(Cell[][] grid) {
-        this.grid = grid;
+        this.grid = new Cell[gridSize][gridSize];
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                this.grid[i][j] = new Cell(grid[i][j].isAlive());
+            }
+        }
     }
 
     public void clearGrid() {
-        this.grid = new Cell[gridSize][gridSize];
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                grid[i][j].setAlive(false);
+            }
+        }
+    }
+
+    public void printGrid() {
+        for (int i = 0; i < gridSize ; i++) {
+            for (int j = 0; j < gridSize ; j++) {
+                if (grid[i][j].isAlive()) {
+                    System.out.print("1");
+                } else {
+                    System.out.print("0");
+                }
+            }
+            System.out.println();
+        }
     }
 }

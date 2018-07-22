@@ -10,11 +10,17 @@ FXML, and MVC. This project is in active development (7/18).
 
 A list of features I would like to add.
 
+Base Features:
 - [x] click to kill/resurrect cell
-- [ ] wrap around game board
+- [x] wrap around game board
 - [ ] save/load buttons
 - [x] play/pause buttons
 - [x] speed up /slow down slider
-- [ ] cell stamps
+- [ ] preset patterns
 - [ ] ability to use different GOL rules
+
+Future Features:
 - [ ] drag to kill/resurrect a rectangular patch of cells
+- [ ] cell age, different cell color based on age of cell
+- [ ] generate random pattern on grid
+- [ ] add ability to change grid size(will probably be a predefined set of sizes)

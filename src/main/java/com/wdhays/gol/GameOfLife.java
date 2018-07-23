@@ -67,10 +67,9 @@ public class GameOfLife {
             for (int col = 0; col < gridSize; col++) {
 
                 int livingNeighborCount = getLivingNeighborCount(row, col);
-;
+
                 //Use the correct RuleSet, defaults to STANDARD
                 if (ruleSet.get() == RuleSet.STANDARD) {
-                    //System.out.println("Standard");
 
                     //If the current cell is alive.
                     if(!getCellState(row, col, true)) {

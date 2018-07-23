@@ -18,9 +18,9 @@ Base Features:
 - [x] speed up /slow down slider
 - [ ] preset patterns
 - [ ] ability to use different GOL rules
+- [x] drag to kill/resurrect a rectangular patch of cells
+- [ ] generate random pattern on grid
 
 Future Features:
-- [ ] drag to kill/resurrect a rectangular patch of cells
 - [ ] cell age, different cell color based on age of cell
-- [ ] generate random pattern on grid
 - [ ] add ability to change grid size(will probably be a predefined set of sizes)

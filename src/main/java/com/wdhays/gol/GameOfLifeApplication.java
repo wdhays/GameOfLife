@@ -15,7 +15,7 @@ public class GameOfLifeApplication extends Application
     @Override
     public void init(){
         System.out.println("In App Init!");
-        gameOfLife = new GameOfLife(60, 10);
+        gameOfLife = new GameOfLife(75, 8);
     }
 
     @Override

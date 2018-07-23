@@ -27,17 +27,23 @@
         <Label fx:id="rulesLabel" id="rulesLabel" text="Rules"/>
         <ComboBox fx:id="rulesCombo" id="rulesCombo" prefWidth="190"/>
         <!--Stamps-->
-        <Label fx:id="stampsLabel" id="stampsLabel" text="Stamps"/>
-        <ComboBox fx:id="stampsCombo" id="stampsCombo" prefWidth="190"/>
-        <ImageView fx:id="stampsImageView" id="stampsImageView" fitWidth="180" fitHeight="180"/>
+        <Label fx:id="presetsLabel" id="presetsLabel" text="Presets"/>
+        <ComboBox fx:id="presetsCombo" id="presetsCombo" prefWidth="190"/>
+        <ImageView fx:id="presetsImageView" id="presetsImageView" fitWidth="180" fitHeight="180"/>
         <HBox alignment="CENTER">
-            <Button fx:id="addStampButton" id="addStampButton" text="Add" prefWidth="90"/>
+            <Button fx:id="addPresetButton" id="addPresetButton" text="Add" prefWidth="85"/>
         </HBox>
         <!--Database-->
         <Label fx:id="databaseLabel" id="databaseLabel" text="Database"/>
         <HBox spacing="10">
             <Button fx:id="saveButton" id="saveButton" text="Save" prefWidth="90"/>
             <Button fx:id="loadButton" id="loadButton" text="Load" prefWidth="90"/>
+        </HBox>
+        <!--Random-->
+        <Label fx:id="randomLabel" id="randomLabel" text="Generate Random Grid"/>
+        <HBox spacing="10">
+            <Button fx:id="randomButton" id="randomButton" text="Go" prefWidth="85"/>
+            <TextField fx:id="randomTextField" id="randomTextField" promptText="Life Chance E.g. 0.1"/>
         </HBox>
     </children>
 </VBox>

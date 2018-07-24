@@ -17,19 +17,19 @@
                     <Label fx:id="generationLabelValue" id="generationLabelValue" text="0"/>
                 </HBox>
             </VBox>
-            <VBox alignment="CENTER" prefWidth="125">
+            <VBox alignment="CENTER" prefWidth="110">
                 <HBox>
-                    <Label fx:id="gameSpeedLabel" id="gameSpeedLabel" text="Game Speed: "/>
+                    <Label fx:id="gameSpeedLabel" id="gameSpeedLabel" text="Speed: "/>
                     <Label fx:id="gameSpeedLabelValue" id="gameSpeedLabelValue" text="Slow"/>
                 </HBox>
             </VBox>
-            <VBox alignment="CENTER" prefWidth="125">
+            <VBox alignment="CENTER" prefWidth="110">
                 <HBox>
-                    <Label fx:id="gameStateLabel" id="gameStateLabel" text="Game State: "/>
+                    <Label fx:id="gameStateLabel" id="gameStateLabel" text="State: "/>
                     <Label fx:id="gameStateLabelValue" id="gameStateLabelValue" text="Paused"/>
                 </HBox>
             </VBox>
-            <VBox alignment="CENTER" prefWidth="125">
+            <VBox alignment="CENTER" prefWidth="150">
                 <HBox>
                     <Label fx:id="ruleSetLabel" id="ruleSetLabel" text="Rule Set: "/>
                     <Label fx:id="ruleSetLabelValue" id="ruleSetLabelValue" text="Standard"/>

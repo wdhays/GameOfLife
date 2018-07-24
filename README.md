@@ -17,7 +17,7 @@ Base Features:
 - [x] play/pause buttons
 - [x] speed up /slow down slider
 - [ ] preset patterns
-- [ ] ability to use different GOL rules
+- [x] ability to use different GOL rules
 - [x] drag to kill/resurrect a rectangular patch of cells
 - [ ] generate random pattern on grid
 

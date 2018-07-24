@@ -1,12 +1,16 @@
 package main.java.com.wdhays.gol;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -34,6 +38,10 @@ public class ControllerControlPanel implements Initializable {
     private Button loadButton;
     @FXML
     private ComboBox rulesCombo;
+    @FXML
+    private Button randomButton;
+    @FXML
+    private TextField randomTextField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,12 +54,12 @@ public class ControllerControlPanel implements Initializable {
                 }
         });
         //Set up action listeners for the play, pause, and stop buttons.
-        playButton.setOnAction(event -> playBtnOnAction());
-        pauseButton.setOnAction(event -> pauseBtnOnAction());
-        clearButton.setOnAction(event -> clearBtnOnAction());
+        playButton.setOnAction(e -> playBtnOnAction());
+        pauseButton.setOnAction(e -> pauseBtnOnAction());
+        clearButton.setOnAction(e -> clearBtnOnAction());
         //Set up action listeners for the save and load buttons.
-        saveButton.setOnAction(event -> saveBtnOnAction());
-        loadButton.setOnAction(event -> loadBtnOnAction());
+        saveButton.setOnAction(this::saveBtnOnAction);
+        loadButton.setOnAction(this::loadBtnOnAction);
         //Set up the rules combo box to be populated by the RuleSet enum.
         rulesCombo.getItems().setAll(RuleSet.getRuleSetLabels());
         rulesCombo.getSelectionModel().selectFirst();
@@ -81,14 +89,36 @@ public class ControllerControlPanel implements Initializable {
         }
     }
 
-    private void saveBtnOnAction() {
+    private void saveBtnOnAction(ActionEvent e) {
         System.out.println("Save button was pressed!");
-        //TODO
+
+        Button eventSource = (Button) e.getSource();
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save GOL File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("GOL Files", "*.gol"));
+        File saveFile = fileChooser.showSaveDialog(eventSource.getScene().getWindow());
+        if (saveFile != null) {
+            //TODO
+            System.out.println("Saving File: Not implemented.");
+        }
     }
 
-    private void loadBtnOnAction() {
+    private void loadBtnOnAction(ActionEvent e) {
         System.out.println("Load button was pressed!");
-        //TODO
+
+        Button eventSource = (Button) e.getSource();
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load GOL File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("GOL Files", "*.gol"));
+        File selectedFile = fileChooser.showOpenDialog(eventSource.getScene().getWindow());
+        if (selectedFile != null) {
+            //TODO
+            System.out.println("Loading File: Not implemented.");
+        }
     }
 
     private void playBtnOnAction() {

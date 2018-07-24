@@ -151,7 +151,8 @@ public class GameOfLife {
         timeLine.stop();
         gameBoard.clearGrid();
         gameBoardNext.clearGrid();
-        generation.set(0);
+        setGeneration(1);
+        setGeneration(0);
     }
 
     public long getGeneration() {

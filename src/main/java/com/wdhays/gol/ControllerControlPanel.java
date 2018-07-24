@@ -124,7 +124,7 @@ public class ControllerControlPanel implements Initializable {
             System.out.println("Attempting load from: " + selectedFile);
             try {
                 gameOfLife.loadGameBoardFromFile(selectedFile);
-                //TODO Need to update the game board.
+                gameOfLife.setGeneration(1);
                 gameOfLife.setGeneration(0);
             } catch (IOException e1) {
                 e1.printStackTrace();

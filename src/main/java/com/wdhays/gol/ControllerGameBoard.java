@@ -31,6 +31,8 @@ public class ControllerGameBoard implements Initializable {
     private Label gameStateLabelValue;
     @FXML
     private Label generationLabelValue;
+    @FXML
+    private Label ruleSetLabelValue;
 
     public ControllerGameBoard(GameOfLife gameOfLife) {
         this.gameOfLife = gameOfLife;
@@ -58,6 +60,9 @@ public class ControllerGameBoard implements Initializable {
         //Set up game speed value label listener.
         gameOfLife.gameSpeedProperty().addListener(e ->
                 gameSpeedLabelValue.setText(gameOfLife.getGameSpeed().toString()));
+        //Set up rule set value label listener.
+        gameOfLife.ruleSetProperty().addListener(e ->
+                ruleSetLabelValue.setText(gameOfLife.getRuleSet().getLabel()));
     }
 
     private void initializeGridPane(){

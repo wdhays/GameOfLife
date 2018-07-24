@@ -5,6 +5,8 @@ import javafx.animation.Timeline;
 import javafx.beans.property.*;
 import javafx.util.Duration;
 
+import java.util.Arrays;
+
 public class GameOfLife {
 
     private GameBoard gameBoard;
@@ -63,28 +65,27 @@ public class GameOfLife {
 
     private void nextGeneration() {
 
+        int[] aliveRules = ruleSet.get().getAliveRules();
+        int[] deadRules = ruleSet.get().getDeadRules();
+
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
 
+                //Get a count of the living neighbors for this cell.
                 int livingNeighborCount = getLivingNeighborCount(row, col);
 
-                //Use the correct RuleSet, defaults to STANDARD
-                if (ruleSet.get() == RuleSet.STANDARD) {
-
-                    //If the current cell is alive.
-                    if(!getCellState(row, col, true)) {
-                        if(livingNeighborCount == 3) {
-                            toggleCellState(row, col, false);
-                        }
-                    } else {
-                        if (livingNeighborCount != 2 && livingNeighborCount != 3) {
-                            toggleCellState(row, col, false);
-                        }
+                //If the cell is currently alive.
+                if(getCellState(row, col, true)) {
+                    //If the livingNeighborCount IS NOT in the aliveRules array kill it in next generation.
+                    if(Arrays.binarySearch(aliveRules, livingNeighborCount) < 0) {
+                        toggleCellState(row, col, false);
                     }
-
+                //If the cell is currently dead.
                 } else {
-                    //TODO
-                    System.out.println("Other");
+                    //If the livingNeighborCount IS in the deadRules array resurrect it in next generation.
+                    if (Arrays.binarySearch(deadRules, livingNeighborCount) >= 0) {
+                            toggleCellState(row, col, false);
+                    }
                 }
             }
         }

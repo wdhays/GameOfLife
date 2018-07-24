@@ -53,7 +53,7 @@ public class ControllerControlPanel implements Initializable {
         saveButton.setOnAction(event -> saveBtnOnAction());
         loadButton.setOnAction(event -> loadBtnOnAction());
         //Set up the rules combo box to be populated by the RuleSet enum.
-        rulesCombo.getItems().setAll(RuleSet.values());
+        rulesCombo.getItems().setAll(RuleSet.getRuleSetLabels());
         rulesCombo.getSelectionModel().selectFirst();
         rulesCombo.valueProperty().addListener((observable, oldValue, newValue) -> rulesComboChangeAction());
     }
@@ -61,7 +61,7 @@ public class ControllerControlPanel implements Initializable {
     private void rulesComboChangeAction() {
         System.out.println("The rules combo value was changed!");
         System.out.println("The new value is " + rulesCombo.getValue());
-        //TODO
+        gameOfLife.setRuleSet(RuleSet.fromString(rulesCombo.getValue().toString()));
     }
 
     private void speedSliderChangeAction() {

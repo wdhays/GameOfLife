@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -100,8 +101,12 @@ public class ControllerControlPanel implements Initializable {
                 new FileChooser.ExtensionFilter("GOL Files", "*.gol"));
         File saveFile = fileChooser.showSaveDialog(eventSource.getScene().getWindow());
         if (saveFile != null) {
-            //TODO
-            System.out.println("Saving File: Not implemented.");
+            System.out.println("Attempting save to: " + saveFile);
+            try {
+                gameOfLife.saveGameBoardToFile(saveFile);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -116,8 +121,14 @@ public class ControllerControlPanel implements Initializable {
                 new FileChooser.ExtensionFilter("GOL Files", "*.gol"));
         File selectedFile = fileChooser.showOpenDialog(eventSource.getScene().getWindow());
         if (selectedFile != null) {
-            //TODO
-            System.out.println("Loading File: Not implemented.");
+            System.out.println("Attempting load from: " + selectedFile);
+            try {
+                gameOfLife.loadGameBoardFromFile(selectedFile);
+                //TODO Need to update the game board.
+                gameOfLife.setGeneration(0);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 

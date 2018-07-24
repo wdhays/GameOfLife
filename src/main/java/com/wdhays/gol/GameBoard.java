@@ -27,6 +27,15 @@ public class GameBoard {
             }
         }
     }
+    public void setGrid(boolean[][] grid) {
+        this.grid = new Cell[gridSize][gridSize];
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                this.grid[i][j] = new Cell(grid[i][j]);
+            }
+        }
+    }
+
 
     public void clearGrid() {
         for (int i = 0; i < gridSize; i++) {

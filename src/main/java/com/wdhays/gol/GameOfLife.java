@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.beans.property.*;
 import javafx.util.Duration;
 
+import java.io.*;
 import java.util.Arrays;
 
 public class GameOfLife {
@@ -240,5 +241,79 @@ public class GameOfLife {
 
     public void setGameBoard(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
+    }
+
+    public void saveGameBoardToFile(File saveFile) throws IOException {
+        //Does the file even exist?
+        if(saveFile.exists()) {
+            if (saveFile.canWrite()) {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFile));
+                bufferedWriter.write(buildGridCSVString());
+                bufferedWriter.close();
+                //return true.
+            } else {
+                System.out.println("The file was not writable.");
+                //return false.
+            }
+        } else {
+            //The files does not exist, it needs to be created.
+            if (saveFile.createNewFile()) {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFile));
+                bufferedWriter.write(buildGridCSVString());
+                bufferedWriter.close();
+                //return true
+            } else {
+                System.out.println("The file could not be created.");
+                //return false
+            }
+        }
+    }
+
+    public void loadGameBoardFromFile(File selectedFile) throws IOException {
+
+        if(selectedFile.canRead()) {
+
+            //Load the file data into a 2d array of booleans.
+            System.out.println("We can load!");
+            boolean[][] newGameBoard = new boolean[gridSize][gridSize];
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(selectedFile));
+            String singleLine;
+            int rowIndex = 0;
+            while((singleLine = bufferedReader.readLine()) != null)
+            {
+                String[] lineArray = singleLine.split(",");
+                int colIndex = 0;
+                for(String value : lineArray)
+                {
+                    newGameBoard[rowIndex][colIndex] = Boolean.parseBoolean(value);
+                    colIndex++;
+                }
+                rowIndex++;
+            }
+            bufferedReader.close();
+
+            //Set the game boards to the loaded state.
+            gameBoard.setGrid(newGameBoard);
+            gameBoardNext.setGrid(newGameBoard);
+            //return true
+        } else {
+            System.out.println("The file was not readable.");
+            //return false
+        }
+    }
+
+    //
+    public String buildGridCSVString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i < gridSize; i++) {
+            for(int j = 0; j < gridSize; j++) {
+                stringBuilder.append(gameBoard.getGrid()[i][j].isAlive() + "");
+                if(j < gridSize - 1) {
+                    stringBuilder.append(",");
+                }
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 }

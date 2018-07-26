@@ -82,6 +82,7 @@ public class ControllerControlPanel implements Initializable {
             System.out.println("The colors checkbox value has changed to: " + newValue);
             gameOfLife.setUseCellAge(newValue);
             long oldGeneration = gameOfLife.getGeneration();
+            gameOfLife.setGeneration(1);
             gameOfLife.setGeneration(0);
             gameOfLife.setGeneration(oldGeneration);
         });

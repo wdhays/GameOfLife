@@ -4,50 +4,48 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<VBox fx:id="controlPanel" id="controlPanel"
-      xmlns="http://javafx.com/javafx"
+
+<VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       prefWidth="200.0" prefHeight="625.0"
       spacing="8">
-    <padding><Insets top="0" right="25" bottom="25" left="25"/></padding>
-    <children>
-        <!--Main-->
-        <Label fx:id="mainLabel" id="mainLabel" text="Conway's Game Of Life"/>
-        <!--Play, pause, and stop-->
-        <HBox spacing="10">
-            <Button fx:id="playButton" id="playButton" text="Play" prefWidth="56"/>
-            <Button fx:id="pauseButton" id="pauseButton" text="Pause" prefWidth="56"/>
-            <Button fx:id="clearButton" id="clearButton" text="Clear" prefWidth="56"/>
-        </HBox>
-        <!--Speed-->
-        <Label fx:id="speedLabel" id="speedLabel" text="Speed"/>
-        <Slider fx:id="speedSlider" id="speedSlider" prefWidth="190"/>
-        <!--Rules-->
-        <Label fx:id="rulesLabel" id="rulesLabel" text="Rules"/>
-        <ComboBox fx:id="rulesCombo" id="rulesCombo" prefWidth="190"/>
-        <!--Patterns-->
-        <Label fx:id="patternsLabel" id="patternsLabel" text="Patterns"/>
-        <ComboBox fx:id="patternsCombo" id="patternsCombo" prefWidth="190"/>
-        <ImageView fx:id="patternImageView" id="patternImageView" fitWidth="180" fitHeight="180"/>
-        <HBox alignment="CENTER">
-            <Button fx:id="addPatternButton" id="addPatternButton" text="Add" prefWidth="85"/>
-        </HBox>
-        <!--Database-->
-        <Label fx:id="databaseLabel" id="databaseLabel" text="Database"/>
-        <HBox spacing="10">
-            <Button fx:id="saveButton" id="saveButton" text="Save" prefWidth="90"/>
-            <Button fx:id="loadButton" id="loadButton" text="Load" prefWidth="90"/>
-        </HBox>
-        <!--Random-->
-        <Label fx:id="randomLabel" id="randomLabel" text="Generate Random Grid"/>
-        <HBox spacing="10">
-            <Button fx:id="randomButton" id="randomButton" text="Go" prefWidth="85"/>
-            <TextField fx:id="randomTextField" id="randomTextField" promptText="Life Chance E.g. 0.1"/>
-        </HBox>
-        <!--Color Options-->
-        <HBox spacing="10">
-            <Label fx:id="useColorsCheckBoxLabel" id="useColorsCheckBoxLabel" text="Use Cell Age Colors: "/>
-            <CheckBox fx:id="useColorsCheckBox" id="useColorsCheckBox" />
-        </HBox>
-    </children>
+    <padding><Insets right="25" left="25"/></padding>
+    <!--Main-->
+    <Label text="Conway's Game Of Life"/>
+    <!--Play, pause, and stop-->
+    <HBox spacing="10">
+        <Button fx:id="playButton" text="Play" prefWidth="56"/>
+        <Button fx:id="pauseButton" text="Pause" prefWidth="56"/>
+        <Button fx:id="clearButton" text="Clear" prefWidth="56"/>
+    </HBox>
+    <!--Speed-->
+    <Label text="Game Speed"/>
+    <Slider fx:id="speedSlider" prefWidth="190"/>
+    <!--Rules-->
+    <Label text="Game Rules"/>
+    <ComboBox fx:id="rulesCombo" prefWidth="190"/>
+    <!--Patterns-->
+    <Label text="Patterns"/>
+    <ComboBox fx:id="patternsCombo" prefWidth="190"/>
+    <ImageView fx:id="patternImageView" fitWidth="180" fitHeight="180"/>
+    <HBox alignment="CENTER">
+        <Button fx:id="addPatternButton" text="Add" prefWidth="85"/>
+    </HBox>
+    <!--Database-->
+    <Label text="Database"/>
+    <HBox spacing="10">
+        <Button fx:id="saveButton" text="Save" prefWidth="90"/>
+        <Button fx:id="loadButton" text="Load" prefWidth="90"/>
+    </HBox>
+    <!--Random-->
+    <Label text="Generate Random Grid"/>
+    <HBox spacing="10">
+        <Button fx:id="randomButton" text="Go" prefWidth="85"/>
+        <TextField fx:id="randomTextField" promptText="Life Chance E.g. 0.1"/>
+    </HBox>
+    <!--Color Options-->
+    <HBox spacing="10">
+        <Label text="Use Cell Age Colors: "/>
+        <CheckBox fx:id="useColorsCheckBox"/>
+    </HBox>
 </VBox>

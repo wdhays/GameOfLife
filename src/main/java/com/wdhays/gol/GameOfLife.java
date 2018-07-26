@@ -17,6 +17,7 @@ public class GameOfLife {
     private Timeline timeLine;
     private ObjectProperty<RuleSet> ruleSet;
     private BooleanProperty gameRunning;
+    private BooleanProperty useCellAge;
     private LongProperty generation;
     private int gridSize;
     private int cellSize;
@@ -30,6 +31,8 @@ public class GameOfLife {
         //Set up the properties.
         this.gameRunning = new SimpleBooleanProperty();
         this.gameRunning.set(false);
+        this.useCellAge = new SimpleBooleanProperty();
+        this.useCellAge.set(false);
         this.ruleSet = new SimpleObjectProperty<>();
         this.ruleSet.set(RuleSet.STANDARD);
         this.gameSpeed = new SimpleObjectProperty<>();
@@ -200,6 +203,17 @@ public class GameOfLife {
         this.gameRunning.set(gameRunning);
     }
 
+    public boolean getUseCellAge() {
+        return useCellAge.get();
+    }
+
+    public BooleanProperty useCellAgeProperty() {
+        return useCellAge;
+    }
+
+    public void setUseCellAge(boolean useCellAge) {
+        this.useCellAge.set(useCellAge);
+    }
 
     public GameSpeed getGameSpeed() {
         return gameSpeed.get();

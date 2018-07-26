@@ -127,8 +127,13 @@ public class ControllerGameBoard implements Initializable {
             System.out.println("The cell is dead! Resurrect it.");
             gameOfLife.toggleCellState(eventSourceRow, eventSourceCol, true);
             gameOfLife.toggleCellState(eventSourceRow, eventSourceCol, false);
-            long cellAge = gameOfLife.getGameBoard().getGrid()[eventSourceRow][eventSourceCol].getAge();
-            eventSource.setFill(getCellColorByAge(cellAge));
+            //Check if the user has selected to draw cells different colors based on age.
+            if (gameOfLife.getUseCellAge()) {
+                long cellAge = gameOfLife.getGameBoard().getGrid()[eventSourceRow][eventSourceCol].getAge();
+                eventSource.setFill(getCellColorByAge(cellAge));
+            } else {
+                eventSource.setFill(Color.BLACK);
+            }
         }
     }
 
@@ -162,8 +167,13 @@ public class ControllerGameBoard implements Initializable {
                 }
             } else {
                 if(gameOfLife.getCellState(dragRow, dragCol, true)) {
-                    long cellAge = gameOfLife.getGameBoard().getGrid()[dragRow][dragCol].getAge();
-                    cellRectTemp.setFill(getCellColorByAge(cellAge));
+                    //Check if the user has selected to draw cells different colors based on age.
+                    if (gameOfLife.getUseCellAge()) {
+                        long cellAge = gameOfLife.getGameBoard().getGrid()[dragRow][dragCol].getAge();
+                        cellRectTemp.setFill(getCellColorByAge(cellAge));
+                    } else {
+                        cellRectTemp.setFill(Color.BLACK);
+                    }
                 } else {
                     cellRectTemp.setFill(Color.WHITE);
                 }
@@ -201,8 +211,13 @@ public class ControllerGameBoard implements Initializable {
                     gameOfLife.toggleCellState(endRow, endCol, true);
                     gameOfLife.toggleCellState(endRow, endCol, false);
                 } else {
-                    long cellAge = gameOfLife.getGameBoard().getGrid()[endRow][endCol].getAge();
-                    cellRectTemp.setFill(getCellColorByAge(cellAge));
+                    //Check if the user has selected to draw cells different colors based on age.
+                    if (gameOfLife.getUseCellAge()) {
+                        long cellAge = gameOfLife.getGameBoard().getGrid()[endRow][endCol].getAge();
+                        cellRectTemp.setFill(getCellColorByAge(cellAge));
+                    } else {
+                        cellRectTemp.setFill(Color.BLACK);
+                    }
                     gameOfLife.toggleCellState(endRow, endCol, true);
                     gameOfLife.toggleCellState(endRow, endCol, false);
                 }
@@ -239,10 +254,13 @@ public class ControllerGameBoard implements Initializable {
             Rectangle cellRect = (Rectangle)child;
 
             if(gameOfLife.getCellState(row, col, true)) {
-                // Draw cell based on age.
-                cellRect.setFill(Color.BLACK);
-//                long cellAge = gameOfLife.getGameBoard().getGrid()[row][col].getAge();
-//                cellRect.setFill(getCellColorByAge(cellAge));
+                //Check if the user has selected to draw cells different colors based on age.
+                if (gameOfLife.getUseCellAge()) {
+                    long cellAge = gameOfLife.getGameBoard().getGrid()[row][col].getAge();
+                    cellRect.setFill(getCellColorByAge(cellAge));
+                } else {
+                    cellRect.setFill(Color.BLACK);
+                }
             } else {
                 cellRect.setFill(Color.WHITE);
             }

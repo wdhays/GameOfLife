@@ -4,10 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
@@ -51,6 +48,8 @@ public class ControllerControlPanel implements Initializable {
     private ImageView patternImageView;
     @FXML
     private Button addPatternButton;
+    @FXML
+    private CheckBox useColorsCheckBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -78,6 +77,14 @@ public class ControllerControlPanel implements Initializable {
         patternImageView.setImage(Pattern.fromString(patternsCombo.getValue().toString()).getPatternImage());
         //Set up add pattern button.
         addPatternButton.setOnAction(e -> addPatternOnAction());
+        //Set up the use cell age colors checkbox.
+        useColorsCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("The colors checkbox value has changed to: " + newValue);
+            gameOfLife.setUseCellAge(newValue);
+            long oldGeneration = gameOfLife.getGeneration();
+            gameOfLife.setGeneration(0);
+            gameOfLife.setGeneration(oldGeneration);
+        });
     }
 
     private void addPatternOnAction() {
@@ -86,7 +93,6 @@ public class ControllerControlPanel implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //TODO
         gameOfLife.setGeneration(1);
         gameOfLife.setGeneration(0);
     }
@@ -191,7 +197,6 @@ public class ControllerControlPanel implements Initializable {
             System.out.println("Attempting load from: " + selectedFile);
             try {
                 gameOfLife.loadGameBoardFromFile(selectedFile);
-                //TODO
                 gameOfLife.setGeneration(1);
                 gameOfLife.setGeneration(0);
             } catch (IOException e1) {

@@ -81,12 +81,15 @@ public class GameOfLife {
                     //If the livingNeighborCount IS NOT in the aliveRules array kill it in next generation.
                     if(Arrays.binarySearch(aliveRules, livingNeighborCount) < 0) {
                         toggleCellState(row, col, false);
+                    } else {
+                        //The cell lived, increase it's age.
+                        gameBoardNext.getGrid()[row][col].incrementAge();
                     }
                 //If the cell is currently dead.
                 } else {
                     //If the livingNeighborCount IS in the deadRules array resurrect it in next generation.
                     if (Arrays.binarySearch(deadRules, livingNeighborCount) >= 0) {
-                            toggleCellState(row, col, false);
+                        toggleCellState(row, col, false);
                     }
                 }
             }
@@ -138,16 +141,17 @@ public class GameOfLife {
     }
 
     public void generateRandomGrid(double chanceOfLife) {
-        boolean[][] grid = new boolean[gridSize][gridSize];
+        long[][] grid = new long[gridSize][gridSize];
         Random random = new Random();
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
-                grid[i][j] = random.nextDouble() <= chanceOfLife;
+                grid[i][j] = random.nextDouble() <= chanceOfLife ? 1 : 0;
             }
         }
         //Set the game boards to the loaded state.
         gameBoard.setGrid(grid);
         gameBoardNext.setGrid(grid);
+        //TODO
         setGeneration(1);
         setGeneration(0);
     }
@@ -167,6 +171,7 @@ public class GameOfLife {
         timeLine.stop();
         gameBoard.clearGrid();
         gameBoardNext.clearGrid();
+        //TODO
         setGeneration(1);
         setGeneration(0);
     }
@@ -286,13 +291,14 @@ public class GameOfLife {
         }
     }
 
+    //TODO Need more robust checking that file is a valid save file.
     public void loadGameBoardFromFile(File selectedFile) throws IOException {
 
         if(selectedFile.canRead()) {
 
             //Load the file data into a 2d array of booleans.
             System.out.println("We can load!");
-            boolean[][] newGameBoard = new boolean[gridSize][gridSize];
+            long[][] newGameBoard = new long[gridSize][gridSize];
             BufferedReader bufferedReader = new BufferedReader(new FileReader(selectedFile));
             String singleLine;
             int rowIndex = 0;
@@ -302,7 +308,7 @@ public class GameOfLife {
                 int colIndex = 0;
                 for(String value : lineArray)
                 {
-                    newGameBoard[rowIndex][colIndex] = Boolean.parseBoolean(value);
+                    newGameBoard[rowIndex][colIndex] = Long.parseLong(value);
                     colIndex++;
                 }
                 rowIndex++;
@@ -324,7 +330,7 @@ public class GameOfLife {
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < gridSize; i++) {
             for(int j = 0; j < gridSize; j++) {
-                stringBuilder.append(gameBoard.getGrid()[i][j].isAlive() + "");
+                stringBuilder.append(gameBoard.getGrid()[i][j].getAge() + "");
                 if(j < gridSize - 1) {
                     stringBuilder.append(",");
                 }

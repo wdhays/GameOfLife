@@ -127,7 +127,8 @@ public class ControllerGameBoard implements Initializable {
             System.out.println("The cell is dead! Resurrect it.");
             gameOfLife.toggleCellState(eventSourceRow, eventSourceCol, true);
             gameOfLife.toggleCellState(eventSourceRow, eventSourceCol, false);
-            eventSource.setFill(Color.BLACK);
+            long cellAge = gameOfLife.getGameBoard().getGrid()[eventSourceRow][eventSourceCol].getAge();
+            eventSource.setFill(getCellColorByAge(cellAge));
         }
     }
 
@@ -161,7 +162,8 @@ public class ControllerGameBoard implements Initializable {
                 }
             } else {
                 if(gameOfLife.getCellState(dragRow, dragCol, true)) {
-                    cellRectTemp.setFill(Color.BLACK);
+                    long cellAge = gameOfLife.getGameBoard().getGrid()[dragRow][dragCol].getAge();
+                    cellRectTemp.setFill(getCellColorByAge(cellAge));
                 } else {
                     cellRectTemp.setFill(Color.WHITE);
                 }
@@ -199,7 +201,8 @@ public class ControllerGameBoard implements Initializable {
                     gameOfLife.toggleCellState(endRow, endCol, true);
                     gameOfLife.toggleCellState(endRow, endCol, false);
                 } else {
-                    cellRectTemp.setFill(Color.BLACK);
+                    long cellAge = gameOfLife.getGameBoard().getGrid()[endRow][endCol].getAge();
+                    cellRectTemp.setFill(getCellColorByAge(cellAge));
                     gameOfLife.toggleCellState(endRow, endCol, true);
                     gameOfLife.toggleCellState(endRow, endCol, false);
                 }
@@ -236,10 +239,26 @@ public class ControllerGameBoard implements Initializable {
             Rectangle cellRect = (Rectangle)child;
 
             if(gameOfLife.getCellState(row, col, true)) {
-                cellRect.setFill(Color.BLACK);
+                // Draw cell based on age.
+                long cellAge = gameOfLife.getGameBoard().getGrid()[row][col].getAge();
+                cellRect.setFill(getCellColorByAge(cellAge));
             } else {
                 cellRect.setFill(Color.WHITE);
             }
+        }
+    }
+
+    public Color getCellColorByAge(long cellAge) {
+        if (cellAge < 2)
+            return Color.web("#99ff33");
+        else if(cellAge < 3) {
+            return Color.web("#ffff00");
+        } else if(cellAge < 4) {
+            return Color.web("#ff9900");
+        } else if(cellAge < 5) {
+            return Color.web("#ff0000");
+        } else {
+            return Color.web("#cc0066");
         }
     }
 }

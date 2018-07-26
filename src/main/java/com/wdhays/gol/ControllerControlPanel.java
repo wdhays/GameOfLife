@@ -1,5 +1,6 @@
 package main.java.com.wdhays.gol;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,30 +49,44 @@ public class ControllerControlPanel implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //Set up speedSlider options and property change listener.
         initializeSpeedSlider();
-        speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-                speedSlider.setValue(newValue.intValue());
-                if(newValue.intValue() != oldValue.intValue()) {
-                    speedSliderChangeAction();
-                }
-        });
+        speedSlider.valueProperty().addListener(getSliderChangeListener());
         //Set up action listeners for the play, pause, and stop buttons.
         playButton.setOnAction(e -> playBtnOnAction());
         pauseButton.setOnAction(e -> pauseBtnOnAction());
         clearButton.setOnAction(e -> clearBtnOnAction());
         //Set up action listeners for the save and load buttons.
-        saveButton.setOnAction(this::saveBtnOnAction);
-        loadButton.setOnAction(this::loadBtnOnAction);
+        saveButton.setOnAction(e -> saveBtnOnAction(e));
+        loadButton.setOnAction(e -> loadBtnOnAction(e));
         //Set up the rules combo box to be populated by the RuleSet enum.
         rulesCombo.getItems().setAll(RuleSet.getRuleSetLabels());
         rulesCombo.getSelectionModel().selectFirst();
-        rulesCombo.valueProperty().addListener((observable, oldValue, newValue) -> rulesComboChangeAction());
+        rulesCombo.valueProperty().addListener(getRulesComboChangeListener());
         //Set up the action listeners for the random button.
         randomButton.setOnAction(e -> randomBtnOnAction());
     }
 
+    private ChangeListener getRulesComboChangeListener() {
+        return (observable, oldValue, newValue) -> {
+            System.out.println("The rules combo value was changed!");
+            System.out.println("The new value is " + rulesCombo.getValue());
+            gameOfLife.setRuleSet(RuleSet.fromString(rulesCombo.getValue().toString()));
+        };
+    }
+
+    private ChangeListener<Number> getSliderChangeListener() {
+        return (observable, oldValue, newValue) -> {
+            //This bit keeps to property listener from firing unless the slider in on a tick mark.
+            //The slider value is a double, but we are only interested in the ints at ticks.
+            speedSlider.setValue(newValue.intValue());
+            if(newValue.intValue() != oldValue.intValue()) {
+                    speedSliderChangeAction();
+            }
+        };
+    }
+
     private void randomBtnOnAction() {
         System.out.println("The random button was pressed!");
-        System.out.println("The random text field value is " + randomTextField.getText());
+        //Force the live chance value to be in our range.
         double randomValue;
         try {
             randomValue = Double.valueOf(randomTextField.getText());
@@ -86,15 +101,9 @@ public class ControllerControlPanel implements Initializable {
             randomValue = 0.1;
             randomTextField.setText(Double.toString(randomValue));
         }
-        System.out.println(randomValue);
-        //TODO
+        //Update the game board.
+        System.out.println("The random text field value is " + randomValue);
         gameOfLife.generateRandomGrid(randomValue);
-    }
-
-    private void rulesComboChangeAction() {
-        System.out.println("The rules combo value was changed!");
-        System.out.println("The new value is " + rulesCombo.getValue());
-        gameOfLife.setRuleSet(RuleSet.fromString(rulesCombo.getValue().toString()));
     }
 
     private void speedSliderChangeAction() {
@@ -148,6 +157,7 @@ public class ControllerControlPanel implements Initializable {
             System.out.println("Attempting load from: " + selectedFile);
             try {
                 gameOfLife.loadGameBoardFromFile(selectedFile);
+                //TODO
                 gameOfLife.setGeneration(1);
                 gameOfLife.setGeneration(0);
             } catch (IOException e1) {

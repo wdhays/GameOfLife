@@ -23,24 +23,25 @@ public class GameBoard {
         this.grid = new Cell[gridSize][gridSize];
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
-                this.grid[i][j] = new Cell(grid[i][j].isAlive());
-            }
-        }
-    }
-    public void setGrid(boolean[][] grid) {
-        this.grid = new Cell[gridSize][gridSize];
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
                 this.grid[i][j] = new Cell(grid[i][j]);
             }
         }
     }
 
+    public void setGrid(long[][] gridIntArray) {
+        this.grid = new Cell[gridSize][gridSize];
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                this.grid[i][j] = new Cell(gridIntArray[i][j] != 0, gridIntArray[i][j]);
+            }
+        }
+    }
 
     public void clearGrid() {
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
                 grid[i][j].setAlive(false);
+                grid[i][j].setAge(0);
             }
         }
     }

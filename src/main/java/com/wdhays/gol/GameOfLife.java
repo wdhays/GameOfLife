@@ -7,6 +7,7 @@ import javafx.util.Duration;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.Random;
 
 public class GameOfLife {
 
@@ -134,6 +135,21 @@ public class GameOfLife {
         if(getCellState(rowLeft, colDown, true)) livingNeighborCount++;
 
         return livingNeighborCount;
+    }
+
+    public void generateRandomGrid(double chanceOfLife) {
+        boolean[][] grid = new boolean[gridSize][gridSize];
+        Random random = new Random();
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                grid[i][j] = random.nextDouble() <= chanceOfLife;
+            }
+        }
+        //Set the game boards to the loaded state.
+        gameBoard.setGrid(grid);
+        gameBoardNext.setGrid(grid);
+        setGeneration(1);
+        setGeneration(0);
     }
 
     public void play() {

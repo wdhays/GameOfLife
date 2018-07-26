@@ -65,6 +65,30 @@ public class ControllerControlPanel implements Initializable {
         rulesCombo.getItems().setAll(RuleSet.getRuleSetLabels());
         rulesCombo.getSelectionModel().selectFirst();
         rulesCombo.valueProperty().addListener((observable, oldValue, newValue) -> rulesComboChangeAction());
+        //Set up the action listeners for the random button.
+        randomButton.setOnAction(e -> randomBtnOnAction());
+    }
+
+    private void randomBtnOnAction() {
+        System.out.println("The random button was pressed!");
+        System.out.println("The random text field value is " + randomTextField.getText());
+        double randomValue;
+        try {
+            randomValue = Double.valueOf(randomTextField.getText());
+            if(randomValue > 1) {
+                randomValue = 1.0;
+                randomTextField.setText(Double.toString(randomValue));
+            } else if (randomValue < 0) {
+                randomValue = 0.0;
+                randomTextField.setText(Double.toString(randomValue));
+            }
+        } catch(NumberFormatException e) {
+            randomValue = 0.1;
+            randomTextField.setText(Double.toString(randomValue));
+        }
+        System.out.println(randomValue);
+        //TODO
+        gameOfLife.generateRandomGrid(randomValue);
     }
 
     private void rulesComboChangeAction() {

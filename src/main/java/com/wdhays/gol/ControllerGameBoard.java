@@ -240,8 +240,9 @@ public class ControllerGameBoard implements Initializable {
 
             if(gameOfLife.getCellState(row, col, true)) {
                 // Draw cell based on age.
-                long cellAge = gameOfLife.getGameBoard().getGrid()[row][col].getAge();
-                cellRect.setFill(getCellColorByAge(cellAge));
+                cellRect.setFill(Color.BLACK);
+//                long cellAge = gameOfLife.getGameBoard().getGrid()[row][col].getAge();
+//                cellRect.setFill(getCellColorByAge(cellAge));
             } else {
                 cellRect.setFill(Color.WHITE);
             }

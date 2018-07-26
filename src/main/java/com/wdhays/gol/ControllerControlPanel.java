@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
@@ -44,6 +45,12 @@ public class ControllerControlPanel implements Initializable {
     private Button randomButton;
     @FXML
     private TextField randomTextField;
+    @FXML
+    private ComboBox patternsCombo;
+    @FXML
+    private ImageView patternImageView;
+    @FXML
+    private Button addPatternButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,6 +70,25 @@ public class ControllerControlPanel implements Initializable {
         rulesCombo.valueProperty().addListener(getRulesComboChangeListener());
         //Set up the action listeners for the random button.
         randomButton.setOnAction(e -> randomBtnOnAction());
+        //Set up the patterns combo box to be populated by the Pattern enum.
+        patternsCombo.getItems().setAll(Pattern.getPatternNames());
+        patternsCombo.getSelectionModel().selectFirst();
+        patternsCombo.valueProperty().addListener(getPatternsComboChangeListener());
+        //Set up the pattern image view.
+        patternImageView.setImage(Pattern.fromString(patternsCombo.getValue().toString()).getPatternImage());
+        //Set up add pattern button.
+        addPatternButton.setOnAction(e -> addPatternOnAction());
+    }
+
+    private void addPatternOnAction() {
+        try {
+            gameOfLife.loadGameBoardFromFile(Pattern.fromString(patternsCombo.getValue().toString()).getPatternFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //TODO
+        gameOfLife.setGeneration(1);
+        gameOfLife.setGeneration(0);
     }
 
     private ChangeListener getRulesComboChangeListener() {
@@ -70,6 +96,14 @@ public class ControllerControlPanel implements Initializable {
             System.out.println("The rules combo value was changed!");
             System.out.println("The new value is " + rulesCombo.getValue());
             gameOfLife.setRuleSet(RuleSet.fromString(rulesCombo.getValue().toString()));
+        };
+    }
+
+    private ChangeListener getPatternsComboChangeListener() {
+        return (observable, oldValue, newValue) -> {
+            System.out.println("The pattern combo value was changed!");
+            System.out.println("The new value is " + patternsCombo.getValue());
+            patternImageView.setImage(Pattern.fromString(patternsCombo.getValue().toString()).getPatternImage());
         };
     }
 

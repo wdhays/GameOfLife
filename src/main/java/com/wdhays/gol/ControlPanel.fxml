@@ -25,12 +25,12 @@
         <!--Rules-->
         <Label fx:id="rulesLabel" id="rulesLabel" text="Rules"/>
         <ComboBox fx:id="rulesCombo" id="rulesCombo" prefWidth="190"/>
-        <!--Stamps-->
-        <Label fx:id="presetsLabel" id="presetsLabel" text="Presets"/>
-        <ComboBox fx:id="presetsCombo" id="presetsCombo" prefWidth="190"/>
-        <ImageView fx:id="presetsImageView" id="presetsImageView" fitWidth="180" fitHeight="180"/>
+        <!--Patterns-->
+        <Label fx:id="patternsLabel" id="patternsLabel" text="Patterns"/>
+        <ComboBox fx:id="patternsCombo" id="patternsCombo" prefWidth="190"/>
+        <ImageView fx:id="patternImageView" id="patternImageView" fitWidth="180" fitHeight="180"/>
         <HBox alignment="CENTER">
-            <Button fx:id="addPresetButton" id="addPresetButton" text="Add" prefWidth="85"/>
+            <Button fx:id="addPatternButton" id="addPatternButton" text="Add" prefWidth="85"/>
         </HBox>
         <!--Database-->
         <Label fx:id="databaseLabel" id="databaseLabel" text="Database"/>

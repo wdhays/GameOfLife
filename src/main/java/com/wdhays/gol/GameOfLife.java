@@ -13,12 +13,13 @@ public class GameOfLife {
 
     private GameBoard gameBoard;
     private GameBoard gameBoardNext;
-    private ObjectProperty<GameSpeed> gameSpeed;
     private Timeline timeLine;
+    private ObjectProperty<GameSpeed> gameSpeed;
     private ObjectProperty<RuleSet> ruleSet;
     private BooleanProperty gameRunning;
-    private BooleanProperty useCellAge;
+    private BooleanProperty needsRedraw;
     private LongProperty generation;
+    private boolean useCellAge;
     private int gridSize;
     private int cellSize;
 
@@ -26,21 +27,22 @@ public class GameOfLife {
         //Set up the gameBoard
         this.gridSize = gridSize;
         this.cellSize = cellSize;
+        this.useCellAge = false;
         this.gameBoard = new GameBoard(gridSize);
         this.gameBoardNext = new GameBoard(gridSize);
         //Set up the properties.
         this.gameRunning = new SimpleBooleanProperty();
         this.gameRunning.set(false);
-        this.useCellAge = new SimpleBooleanProperty();
-        this.useCellAge.set(false);
+        this.needsRedraw = new SimpleBooleanProperty();
+        this.needsRedraw.set(false);
         this.ruleSet = new SimpleObjectProperty<>();
         this.ruleSet.set(RuleSet.STANDARD);
         this.gameSpeed = new SimpleObjectProperty<>();
-        this.gameSpeed.set(GameSpeed.SLOW);
+        this.gameSpeed.set(GameSpeed.VERYSLOW);
         this.generation = new SimpleLongProperty();
         this.generation.set(0);
         //Call method to initialize a TimeLine.
-        initializeTimeline(GameSpeed.SLOW);
+        initializeTimeline(GameSpeed.VERYSLOW);
     }
 
     public void initializeTimeline(GameSpeed gameSpeed) {
@@ -154,9 +156,9 @@ public class GameOfLife {
         //Set the game boards to the loaded state.
         gameBoard.setGrid(grid);
         gameBoardNext.setGrid(grid);
-        //TODO
-        setGeneration(1);
         setGeneration(0);
+        //Trigger a redraw.
+        setNeedsRedraw(true);
     }
 
     public void play() {
@@ -174,9 +176,15 @@ public class GameOfLife {
         timeLine.stop();
         gameBoard.clearGrid();
         gameBoardNext.clearGrid();
-        //TODO
-        setGeneration(1);
         setGeneration(0);
+    }
+
+    public BooleanProperty needsRedrawProperty() {
+        return needsRedraw;
+    }
+
+    public void setNeedsRedraw(boolean needsRedraw) {
+        this.needsRedraw.set(needsRedraw);
     }
 
     public long getGeneration() {
@@ -199,20 +207,12 @@ public class GameOfLife {
         return gameRunning;
     }
 
-    public void setGameRunning(boolean gameRunning) {
-        this.gameRunning.set(gameRunning);
-    }
-
     public boolean getUseCellAge() {
-        return useCellAge.get();
-    }
-
-    public BooleanProperty useCellAgeProperty() {
         return useCellAge;
     }
 
     public void setUseCellAge(boolean useCellAge) {
-        this.useCellAge.set(useCellAge);
+        this.useCellAge = useCellAge;
     }
 
     public GameSpeed getGameSpeed() {
@@ -221,10 +221,6 @@ public class GameOfLife {
 
     public ObjectProperty<GameSpeed> gameSpeedProperty() {
         return gameSpeed;
-    }
-
-    public void setGameSpeed(GameSpeed gameSpeed) {
-        this.gameSpeed.set(gameSpeed);
     }
 
     public RuleSet getRuleSet() {
@@ -243,16 +239,8 @@ public class GameOfLife {
         return gridSize;
     }
 
-    public void setGridSize(int gridSize) {
-        this.gridSize = gridSize;
-    }
-
     public int getCellSize() {
         return cellSize;
-    }
-
-    public void setCellSize(int cellSize) {
-        this.cellSize = cellSize;
     }
 
     public GameBoard getGameBoard() {
@@ -275,21 +263,17 @@ public class GameOfLife {
         }
     }
 
-    public void setGameBoard(GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
-    public void saveGameBoardToFile(File saveFile) throws IOException {
+    public boolean saveGameBoardToFile(File saveFile) throws IOException {
         //Does the file even exist?
         if(saveFile.exists()) {
             if (saveFile.canWrite()) {
                 BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFile));
                 bufferedWriter.write(buildGridCSVString());
                 bufferedWriter.close();
-                //return true.
+                return true;
             } else {
                 System.out.println("The file was not writable.");
-                //return false.
+                return false;
             }
         } else {
             //The files does not exist, it needs to be created.
@@ -297,18 +281,19 @@ public class GameOfLife {
                 BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFile));
                 bufferedWriter.write(buildGridCSVString());
                 bufferedWriter.close();
-                //return true
+                return true;
             } else {
                 System.out.println("The file could not be created.");
-                //return false
+                return false;
             }
         }
     }
 
-    //TODO Need more robust checking that file is a valid save file.
-    public void loadGameBoardFromFile(File selectedFile) throws IOException {
+    public boolean loadGameBoardFromFile(File selectedFile) throws IOException, NumberFormatException {
 
         if(selectedFile.canRead()) {
+
+            boolean badFormatFlag = false;
 
             //Load the file data into a 2d array of booleans.
             System.out.println("We can load!");
@@ -325,26 +310,34 @@ public class GameOfLife {
                     newGameBoard[rowIndex][colIndex] = Long.parseLong(value);
                     colIndex++;
                 }
+                if(colIndex != gridSize) {
+                    badFormatFlag = true;
+                    break;
+                }
                 rowIndex++;
             }
             bufferedReader.close();
 
-            //Set the game boards to the loaded state.
-            gameBoard.setGrid(newGameBoard);
-            gameBoardNext.setGrid(newGameBoard);
-            //return true
+            if (badFormatFlag || rowIndex != gridSize) {
+                System.out.println("The file was not the correct format!");
+                return false;
+            } else {
+                //Set the game boards to the loaded state.
+                gameBoard.setGrid(newGameBoard);
+                gameBoardNext.setGrid(newGameBoard);
+                return true;
+            }
         } else {
             System.out.println("The file was not readable.");
-            //return false
+            return false;
         }
     }
 
-    //
     public String buildGridCSVString() {
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < gridSize; i++) {
             for(int j = 0; j < gridSize; j++) {
-                stringBuilder.append(gameBoard.getGrid()[i][j].getAge() + "");
+                stringBuilder.append(Long.toString(gameBoard.getGrid()[i][j].getAge()));
                 if(j < gridSize - 1) {
                     stringBuilder.append(",");
                 }

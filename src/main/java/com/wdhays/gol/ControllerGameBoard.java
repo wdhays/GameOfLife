@@ -1,5 +1,8 @@
 package main.java.com.wdhays.gol;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -43,12 +46,34 @@ public class ControllerGameBoard implements Initializable {
         //Set up the grid.
         initializeGridPane();
         //Set up generation value label listener.
-        gameOfLife.generationProperty().addListener(e -> {
-                generationLabelValue.setText(Long.toString(gameOfLife.getGeneration()));
-                updateGridRectangles();
-        });
+        gameOfLife.generationProperty().addListener(generationInvalidationListener());
         //Set up game state value label listener.
-        gameOfLife.gameRunningProperty().addListener(e -> {
+        gameOfLife.gameRunningProperty().addListener(gameRunningInvalidationListener());
+        //Set up game speed value label listener.
+        gameOfLife.gameSpeedProperty().addListener(e ->
+                gameSpeedLabelValue.setText(gameOfLife.getGameSpeed().getLabel()));
+        //Set up rule set value label listener.
+        gameOfLife.ruleSetProperty().addListener(e ->
+                ruleSetLabelValue.setText(gameOfLife.getRuleSet().getLabel()));
+        //Set up the redraw listener
+        gameOfLife.needsRedrawProperty().addListener(needsRedrawChangeListener());
+    }
+
+    private ChangeListener<Boolean> needsRedrawChangeListener() {
+        return new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                gameOfLife.needsRedrawProperty().removeListener(this);
+                updateGridRectangles();
+                gameOfLife.setNeedsRedraw(false);
+                gameOfLife.needsRedrawProperty().addListener(this);
+                System.out.println("A redraw was triggered!");
+            }
+        };
+    }
+
+    private InvalidationListener gameRunningInvalidationListener() {
+        return e -> {
                     String newLabelString;
                     if(gameOfLife.isGameRunning()){
                         newLabelString = "Running";
@@ -56,13 +81,14 @@ public class ControllerGameBoard implements Initializable {
                         newLabelString = "Paused";
                     }
                     gameStateLabelValue.setText(newLabelString);
-            });
-        //Set up game speed value label listener.
-        gameOfLife.gameSpeedProperty().addListener(e ->
-                gameSpeedLabelValue.setText(gameOfLife.getGameSpeed().toString()));
-        //Set up rule set value label listener.
-        gameOfLife.ruleSetProperty().addListener(e ->
-                ruleSetLabelValue.setText(gameOfLife.getRuleSet().getLabel()));
+            };
+    }
+
+    private InvalidationListener generationInvalidationListener() {
+        return e -> {
+                generationLabelValue.setText(Long.toString(gameOfLife.getGeneration()));
+                updateGridRectangles();
+        };
     }
 
     private void initializeGridPane(){
@@ -97,20 +123,16 @@ public class ControllerGameBoard implements Initializable {
         cellRect.setStrokeType(StrokeType.INSIDE);
         cellRect.setStrokeWidth(0.5);
 
-        // Add mouse on click to toggle cells.
+        // Add mouse event to this rectangle..
         cellRect.setOnMouseClicked(this::mouseClickedEvent);
-        //
         cellRect.setOnDragDetected(this::mouseDragStartEvent);
-        //
         cellRect.setOnMouseDragOver(this::mouseDragOverEvent);
-        //
         cellRect.setOnMouseDragReleased(this::mouseDragEndEvent);
 
         // Add the Rectangle to the grid at the col/row.
         gridPane.add(cellRect, col, row);
     }
 
-    //
     private void mouseClickedEvent(MouseEvent e) {
         //Get the source of the event and info.
         Rectangle eventSource = (Rectangle) e.getSource();
@@ -137,7 +159,6 @@ public class ControllerGameBoard implements Initializable {
         }
     }
 
-    //
     private void mouseDragOverEvent(MouseDragEvent e) {
         //Get the source of the event and info.
         Rectangle eventSource = (Rectangle) e.getSource();
@@ -181,9 +202,7 @@ public class ControllerGameBoard implements Initializable {
         }
     }
 
-    //
     private void mouseDragEndEvent(MouseDragEvent e) {
-
         //Get the source of the event and info.
         Rectangle eventSource = (Rectangle) e.getSource();
         int eventSourceCol = GridPane.getColumnIndex(eventSource);
@@ -230,7 +249,6 @@ public class ControllerGameBoard implements Initializable {
         }
     }
 
-    //
     private void mouseDragStartEvent(MouseEvent e) {
         //Get the source of the event.
         Rectangle eventSource = (Rectangle) e.getSource();
@@ -244,7 +262,6 @@ public class ControllerGameBoard implements Initializable {
         gameOfLife.pause();
     }
 
-    //
     private void updateGridRectangles() {
         //Update each node in the grid.
         for (Node child : gridPane.getChildren()) {

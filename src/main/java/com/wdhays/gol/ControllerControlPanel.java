@@ -12,6 +12,7 @@ import javafx.util.StringConverter;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static main.java.com.wdhays.gol.GameSpeed.*;
@@ -37,13 +38,13 @@ public class ControllerControlPanel implements Initializable {
     @FXML
     private Button loadButton;
     @FXML
-    private ComboBox rulesCombo;
+    private ComboBox<String> rulesCombo;
     @FXML
     private Button randomButton;
     @FXML
     private TextField randomTextField;
     @FXML
-    private ComboBox patternsCombo;
+    private ComboBox<String> patternsCombo;
     @FXML
     private ImageView patternImageView;
     @FXML
@@ -61,8 +62,8 @@ public class ControllerControlPanel implements Initializable {
         pauseButton.setOnAction(e -> pauseBtnOnAction());
         clearButton.setOnAction(e -> clearBtnOnAction());
         //Set up action listeners for the save and load buttons.
-        saveButton.setOnAction(e -> saveBtnOnAction(e));
-        loadButton.setOnAction(e -> loadBtnOnAction(e));
+        saveButton.setOnAction(this::saveBtnOnAction);
+        loadButton.setOnAction(this::loadBtnOnAction);
         //Set up the rules combo box to be populated by the RuleSet enum.
         rulesCombo.getItems().setAll(RuleSet.getRuleSetLabels());
         rulesCombo.getSelectionModel().selectFirst();
@@ -73,56 +74,60 @@ public class ControllerControlPanel implements Initializable {
         patternsCombo.getItems().setAll(Pattern.getPatternNames());
         patternsCombo.getSelectionModel().selectFirst();
         patternsCombo.valueProperty().addListener(getPatternsComboChangeListener());
-        //Set up the pattern image view.
-        patternImageView.setImage(Pattern.fromString(patternsCombo.getValue().toString()).getPatternImage());
+        //Set up the pattern image view with a default image.
+        patternImageView.setImage(Objects.requireNonNull(Pattern.fromString(patternsCombo.getValue())).getPatternImage());
         //Set up add pattern button.
         addPatternButton.setOnAction(e -> addPatternOnAction());
         //Set up the use cell age colors checkbox.
-        useColorsCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("The colors checkbox value has changed to: " + newValue);
-            gameOfLife.setUseCellAge(newValue);
-            long oldGeneration = gameOfLife.getGeneration();
-            gameOfLife.setGeneration(1);
-            gameOfLife.setGeneration(0);
-            gameOfLife.setGeneration(oldGeneration);
-        });
+        useColorsCheckBox.selectedProperty().addListener(useCellAgeColorsChangeListener());
     }
 
-    private void addPatternOnAction() {
-        try {
-            gameOfLife.loadGameBoardFromFile(Pattern.fromString(patternsCombo.getValue().toString()).getPatternFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        gameOfLife.setGeneration(1);
-        gameOfLife.setGeneration(0);
-    }
-
-    private ChangeListener getRulesComboChangeListener() {
+    private ChangeListener<Boolean> useCellAgeColorsChangeListener() {
         return (observable, oldValue, newValue) -> {
-            System.out.println("The rules combo value was changed!");
-            System.out.println("The new value is " + rulesCombo.getValue());
-            gameOfLife.setRuleSet(RuleSet.fromString(rulesCombo.getValue().toString()));
+            System.out.println("The draw colors checkbox value has changed to: " + newValue);
+            gameOfLife.setUseCellAge(newValue);
+            //Trigger redraw.
+            gameOfLife.setNeedsRedraw(true);
         };
     }
 
-    private ChangeListener getPatternsComboChangeListener() {
+    private ChangeListener<String> getRulesComboChangeListener() {
+        return (observable, oldValue, newValue) -> {
+            System.out.println("The rules combo value was changed!");
+            System.out.println("The new value is " + rulesCombo.getValue());
+            gameOfLife.setRuleSet(RuleSet.fromString(rulesCombo.getValue()));
+        };
+    }
+
+    private ChangeListener<String> getPatternsComboChangeListener() {
+        //Update the pattern image view to the currently selected patterns thumbnail.
         return (observable, oldValue, newValue) -> {
             System.out.println("The pattern combo value was changed!");
             System.out.println("The new value is " + patternsCombo.getValue());
-            patternImageView.setImage(Pattern.fromString(patternsCombo.getValue().toString()).getPatternImage());
+            patternImageView.setImage(Objects.requireNonNull(Pattern.fromString(patternsCombo.getValue())).getPatternImage());
         };
     }
 
     private ChangeListener<Number> getSliderChangeListener() {
         return (observable, oldValue, newValue) -> {
             //This bit keeps to property listener from firing unless the slider in on a tick mark.
-            //The slider value is a double, but we are only interested in the ints at ticks.
+            //The slider value is a double, but we are only interested in the whole numbers at ticks.
             speedSlider.setValue(newValue.intValue());
             if(newValue.intValue() != oldValue.intValue()) {
                     speedSliderChangeAction();
             }
         };
+    }
+
+    private void addPatternOnAction() {
+        try {
+            gameOfLife.loadGameBoardFromFile(Objects.requireNonNull(Pattern.fromString(patternsCombo.getValue())).getPatternFile());
+            //Trigger a redraw.
+            gameOfLife.setNeedsRedraw(true);
+            gameOfLife.setGeneration(0);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
     private void randomBtnOnAction() {
@@ -147,46 +152,36 @@ public class ControllerControlPanel implements Initializable {
         gameOfLife.generateRandomGrid(randomValue);
     }
 
-    private void speedSliderChangeAction() {
-        System.out.println("The speed slider value was changed!");
-        System.out.println("The new value is " + speedSlider.getValue());
-        int speedSliderValue = (int)speedSlider.getValue();
-        if (speedSliderValue == 0) {
-            gameOfLife.initializeTimeline(SLOW);
-        } else if (speedSliderValue == 1) {
-            gameOfLife.initializeTimeline(MEDSLOW);
-        } else if (speedSliderValue == 2) {
-            gameOfLife.initializeTimeline(MEDIUM);
-        } else if (speedSliderValue == 3) {
-            gameOfLife.initializeTimeline(MEDFAST);
-        } else if (speedSliderValue == 4) {
-            gameOfLife.initializeTimeline(FAST);
-        }
-    }
+    private void saveBtnOnAction(ActionEvent event) {
 
-    private void saveBtnOnAction(ActionEvent e) {
         System.out.println("Save button was pressed!");
-
-        Button eventSource = (Button) e.getSource();
+        Button eventSource = (Button) event.getSource();
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save GOL File");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("GOL Files", "*.gol"));
         File saveFile = fileChooser.showSaveDialog(eventSource.getScene().getWindow());
+
         if (saveFile != null) {
             System.out.println("Attempting save to: " + saveFile);
             try {
-                gameOfLife.saveGameBoardToFile(saveFile);
-            } catch (IOException e1) {
-                e1.printStackTrace();
+                if (gameOfLife.saveGameBoardToFile(saveFile)) {
+                    System.out.println("Save successful!");
+                } else {
+                    System.out.println("Save failed!");
+                    System.out.println("The file could not be created or was not writable!");
+                }
+            } catch (IOException e) {
+                System.out.println("There was an error saving the file!");
+                e.printStackTrace();
             }
         }
     }
 
     private void loadBtnOnAction(ActionEvent e) {
-        System.out.println("Load button was pressed!");
 
+        System.out.println("Load button was pressed!");
         Button eventSource = (Button) e.getSource();
 
         FileChooser fileChooser = new FileChooser();
@@ -194,14 +189,27 @@ public class ControllerControlPanel implements Initializable {
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("GOL Files", "*.gol"));
         File selectedFile = fileChooser.showOpenDialog(eventSource.getScene().getWindow());
+
         if (selectedFile != null) {
             System.out.println("Attempting load from: " + selectedFile);
             try {
-                gameOfLife.loadGameBoardFromFile(selectedFile);
-                gameOfLife.setGeneration(1);
-                gameOfLife.setGeneration(0);
+                if (gameOfLife.loadGameBoardFromFile(selectedFile)) {
+                    //Trigger a redraw.
+                    gameOfLife.setNeedsRedraw(true);
+                    gameOfLife.setGeneration(0);
+                    System.out.println("Load successful!");
+                } else {
+                    System.out.println("Load failed!");
+                    int gridSize = gameOfLife.getGridSize();
+                    System.out.println("The file needs to be a " + gridSize + "x" + gridSize + " CSV of long ints!");
+                }
             } catch (IOException e1) {
+                System.out.println("There was an error loading the file!");
                 e1.printStackTrace();
+            } catch (NumberFormatException e1) {
+                System.out.println("The file had bad data!");
+                int gridSize = gameOfLife.getGridSize();
+                System.out.println("The file needs to be a " + gridSize + "x" + gridSize + " CSV of long ints!");
             }
         }
     }
@@ -219,6 +227,25 @@ public class ControllerControlPanel implements Initializable {
     private void clearBtnOnAction() {
         System.out.println("Clear button was pressed!");
         gameOfLife.clear();
+        //Trigger a redraw.
+        gameOfLife.setNeedsRedraw(true);
+    }
+
+    private void speedSliderChangeAction() {
+        System.out.println("The speed slider value was changed!");
+        System.out.println("The new value is " + speedSlider.getValue());
+        int speedSliderValue = (int)speedSlider.getValue();
+        if (speedSliderValue == 0) {
+            gameOfLife.initializeTimeline(VERYSLOW);
+        } else if (speedSliderValue == 1) {
+            gameOfLife.initializeTimeline(SLOW);
+        } else if (speedSliderValue == 2) {
+            gameOfLife.initializeTimeline(MEDIUM);
+        } else if (speedSliderValue == 3) {
+            gameOfLife.initializeTimeline(FAST);
+        } else if (speedSliderValue == 4) {
+            gameOfLife.initializeTimeline(VERYFAST);
+        }
     }
 
     private void initializeSpeedSlider(){
@@ -235,20 +262,20 @@ public class ControllerControlPanel implements Initializable {
         speedSlider.setLabelFormatter(new StringConverter<>() {
             @Override
             public String toString(Double n) {
-                if (n == 0) return GameSpeed.SLOW.toString();
-                if (n == 1) return GameSpeed.MEDSLOW.toString();
-                if (n == 2) return GameSpeed.MEDIUM.toString();
-                if (n == 3) return GameSpeed.MEDFAST.toString();
-                if (n == 4) return GameSpeed.FAST.toString();
+                if (n == 0) return GameSpeed.VERYSLOW.getLabel();
+                if (n == 1) return GameSpeed.SLOW.getLabel();
+                if (n == 2) return GameSpeed.MEDIUM.getLabel();
+                if (n == 3) return GameSpeed.FAST.getLabel();
+                if (n == 4) return GameSpeed.VERYFAST.getLabel();
                 return GameSpeed.SLOW.toString();
             }
             @Override
             public Double fromString(String s) {
-                if (s.equals(GameSpeed.SLOW.toString())) return 0d;
-                if (s.equals(GameSpeed.MEDSLOW.toString())) return 1d;
-                if (s.equals(GameSpeed.MEDIUM.toString())) return 2d;
-                if (s.equals(GameSpeed.MEDFAST.toString())) return 3d;
-                if (s.equals(GameSpeed.FAST.toString())) return 4d;
+                if (s.equals(GameSpeed.VERYSLOW.getLabel())) return 0d;
+                if (s.equals(GameSpeed.SLOW.getLabel())) return 1d;
+                if (s.equals(GameSpeed.MEDIUM.getLabel())) return 2d;
+                if (s.equals(GameSpeed.FAST.getLabel())) return 3d;
+                if (s.equals(GameSpeed.VERYFAST.getLabel())) return 4d;
                 return 0d;
             }
         });

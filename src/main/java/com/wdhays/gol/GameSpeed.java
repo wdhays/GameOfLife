@@ -1,13 +1,14 @@
 package main.java.com.wdhays.gol;
 
 public enum GameSpeed {
-    SLOW(800, "Slow"),
-    MEDSLOW(400, "MedSlow"),
-    MEDIUM(200, "Medium"),
-    MEDFAST(100, "MedFast"),
-    FAST(50, "Fast");
 
-    private int speed;
+    VERYSLOW(800, "V. Slow"),
+    SLOW(400, "Slow"),
+    MEDIUM(200, "Medium"),
+    FAST(100, "Fast"),
+    VERYFAST(50, "V. Fast");
+
+    private int speed; //In milliseconds
     private String label;
 
     GameSpeed(int speed, String label) {
@@ -19,7 +20,7 @@ public enum GameSpeed {
         return speed;
     }
 
-    public String toString() {
+    public String getLabel() {
         return label;
     }
 }

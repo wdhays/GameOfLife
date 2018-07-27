@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum Pattern {
+
     ACHIMSP11("Achims-p11"),
     KOKSGALAXY("Koks-Galaxy-p8"),
     CARNIVALSHUTTLE("Carnival-Shuttle");
@@ -17,8 +18,13 @@ public enum Pattern {
 
     Pattern(String patternName) {
         this.patternName = patternName;
-        this.patternFile = new File(getClass().getResource("./patterns/" + patternName + ".gol").getFile());
-        this.patternImage = new Image(getClass().getResource("./patterns/" + patternName + ".png").toString(), true);
+        try {
+            this.patternFile = new File(getClass().getResource("patterns/" + patternName + ".gol").getFile());
+            this.patternImage = new Image(getClass().getResource("patterns/" + patternName + ".png").toString(), true);
+        } catch (NullPointerException | IllegalArgumentException e) {
+            System.out.println("Failed to load pattern File or Image!");
+            e.printStackTrace();
+        }
     }
 
     public File getPatternFile() {

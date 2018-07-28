@@ -119,9 +119,10 @@ public class ControllerGameBoard implements Initializable {
         cellRect.setHeight(cellSize);
         cellRect.setWidth(cellSize);
         cellRect.setFill(Color.WHITE);
-        cellRect.setStroke(Color.WHITE);
+        cellRect.setStroke(Color.web("#F6F6F6"));
         cellRect.setStrokeType(StrokeType.INSIDE);
         cellRect.setStrokeWidth(0.5);
+        cellRect.setSmooth(true);
 
         // Add mouse event to this rectangle..
         cellRect.setOnMouseClicked(this::mouseClickedEvent);
@@ -182,9 +183,9 @@ public class ControllerGameBoard implements Initializable {
             //If the node is in the bow being draw draw it in a different color else draw it normal.
             if(dragCol <= maxX && dragCol >= minX && dragRow <= maxY && dragRow >= minY) {
                 if(gameOfLife.getCellState(dragRow, dragCol, true)) {
-                    cellRectTemp.setFill(Color.DARKGRAY);
+                    cellRectTemp.setFill(Color.GRAY);
                 } else {
-                    cellRectTemp.setFill(Color.LIGHTGRAY);
+                    cellRectTemp.setFill(Color.DARKGRAY);
                 }
             } else {
                 if(gameOfLife.getCellState(dragRow, dragCol, true)) {

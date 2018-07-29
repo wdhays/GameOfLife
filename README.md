@@ -1,24 +1,36 @@
 # GameOfLife
 Conway's Game of Life written in Java using JavaFX
 
-### Author ###
+#### Author ####
 William Daniel Hays
 
-### About Project ###
+#### About Project ####
 This is a small project that I decided to work on in order to strengthen my understanding for JAVAFX,
-FXML, and MVC. This project is in active development (7/18).
+FXML, and MVC.
 
-Features:
+#### Instructions ####
+//TODO
+
+#### Example ####
+![Alt Text](http://www.wdhays.com/public/GOL.gif | width=100)
+
+#### Features ####
+Current Features(v1.0):
 - [x] click to kill/resurrect cell
 - [x] wrap around game board
 - [x] save/load buttons
 - [x] play/pause buttons
 - [x] speed up /slow down slider
-- [ ] preset patterns
 - [x] ability to use different GOL rules
 - [x] drag to kill/resurrect a rectangular patch of cells
-- [ ] generate random pattern on grid
-- [ ] cell age, different cell color based on age of cell
+- [x] generate random pattern on grid
+- [x] cell age, different cell color based on age of cell
+- [x] preset patterns
+- [x] checkbox for toggling cell age colors on/off
 
-### Instructions ###
-//TODO
+Future Feature(v1.x)
+- [ ] change current patterns to stamps(can be placed anywhere on grid)
+- [ ] rotate stamps before placement
+- [ ] user ability to resize/scale game board grid
+- [ ] integrate existing GOL pattern libraries(instead of me doing them by hand)
+- [ ] optimize current nextGeneration method for speed

@@ -12,7 +12,7 @@ FXML, and MVC.
 //TODO
 
 #### Example ####
-![Alt Text](http://www.wdhays.com/public/GOL.gif | width=100)
+<img src="http://www.wdhays.com/public/GOL.gif"/>
 
 #### Features ####
 Current Features(v1.0):

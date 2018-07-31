@@ -121,10 +121,14 @@ public class ControllerControlPanel implements Initializable {
 
     private void addPatternOnAction() {
         try {
-            gameOfLife.loadGameBoardFromFile(Objects.requireNonNull(Pattern.fromString(patternsCombo.getValue())).getPatternFile());
-            //Trigger a redraw.
-            gameOfLife.setNeedsRedraw(true);
-            gameOfLife.setGeneration(0);
+            if (gameOfLife.loadGameBoardFromPatternFile(Objects.requireNonNull(Pattern.fromString(patternsCombo.getValue())).getPatternFile())) {
+                System.out.println("Pattern successfully added!");
+                //Trigger a redraw.
+                gameOfLife.setNeedsRedraw(true);
+                gameOfLife.setGeneration(0);
+            } else {
+                System.out.println("Pattern load failed!");
+            }
         } catch (IOException e1) {
             e1.printStackTrace();
         }

@@ -333,6 +333,43 @@ public class GameOfLife {
         }
     }
 
+    public boolean loadGameBoardFromPatternFile(BufferedReader bufferedReader) throws IOException, NumberFormatException {
+        boolean badFormatFlag = false;
+
+        //Load the file data into a 2d array of booleans.
+        System.out.println("We can load!");
+        long[][] newGameBoard = new long[gridSize][gridSize];
+        //BufferedReader bufferedReader = new BufferedReader(new FileReader(selectedFile));
+        String singleLine;
+        int rowIndex = 0;
+        while((singleLine = bufferedReader.readLine()) != null)
+        {
+            String[] lineArray = singleLine.split(",");
+            int colIndex = 0;
+            for(String value : lineArray)
+            {
+                newGameBoard[rowIndex][colIndex] = Long.parseLong(value);
+                colIndex++;
+            }
+            if(colIndex != gridSize) {
+                badFormatFlag = true;
+                break;
+            }
+            rowIndex++;
+        }
+        bufferedReader.close();
+
+        if (badFormatFlag || rowIndex != gridSize) {
+            System.out.println("The file was not the correct format!");
+            return false;
+        } else {
+            //Set the game boards to the loaded state.
+            gameBoard.setGrid(newGameBoard);
+            gameBoardNext.setGrid(newGameBoard);
+            return true;
+        }
+    }
+
     public String buildGridCSVString() {
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < gridSize; i++) {

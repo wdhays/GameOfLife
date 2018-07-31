@@ -2,7 +2,9 @@ package main.java.com.wdhays.gol;
 
 import javafx.scene.image.Image;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +22,13 @@ public enum Pattern {
     CARNIVALSHUTTLE("Carnival-Shuttle");
 
     private String patternName;
-    private File patternFile;
+    private BufferedReader patternFileReader;
     private Image patternImage;
 
     Pattern(String patternName) {
         this.patternName = patternName;
         try {
-            this.patternFile = new File(getClass().getResource("patterns/" + patternName + ".gol").getFile());
+            this.patternFileReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("patterns/" + patternName + ".gol")));
             this.patternImage = new Image(getClass().getResource("patterns/" + patternName + ".png").toString(), true);
         } catch (NullPointerException | IllegalArgumentException e) {
             System.out.println("Failed to load pattern File or Image!");
@@ -34,8 +36,8 @@ public enum Pattern {
         }
     }
 
-    public File getPatternFile() {
-        return patternFile;
+    public BufferedReader getPatternFile() {
+        return patternFileReader;
     }
 
     public Image getPatternImage() {

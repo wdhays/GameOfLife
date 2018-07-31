@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
@@ -75,7 +76,7 @@ public class ControllerControlPanel implements Initializable {
         patternsCombo.getSelectionModel().selectFirst();
         patternsCombo.valueProperty().addListener(getPatternsComboChangeListener());
         //Set up the pattern image view with a default image.
-        patternImageView.setImage(Objects.requireNonNull(Pattern.fromString(patternsCombo.getValue())).getPatternImage());
+        loadPatternPreviewImage();
         //Set up add pattern button.
         addPatternButton.setOnAction(e -> addPatternOnAction());
         //Set up the use cell age colors checkbox.
@@ -104,8 +105,17 @@ public class ControllerControlPanel implements Initializable {
         return (observable, oldValue, newValue) -> {
             System.out.println("The pattern combo value was changed!");
             System.out.println("The new value is " + patternsCombo.getValue());
-            patternImageView.setImage(Objects.requireNonNull(Pattern.fromString(patternsCombo.getValue())).getPatternImage());
+            loadPatternPreviewImage();
         };
+    }
+
+    private void loadPatternPreviewImage() {
+        try {
+            Image previewImage = new Image(getClass().getResource("patterns/" + patternsCombo.getValue() + ".png").toString(), true);
+            patternImageView.setImage(previewImage);
+        } catch (NullPointerException | IllegalArgumentException e) {
+            System.out.println("Failed to load pattern preview image!");
+        }
     }
 
     private ChangeListener<Number> getSliderChangeListener() {
@@ -121,7 +131,7 @@ public class ControllerControlPanel implements Initializable {
 
     private void addPatternOnAction() {
         try {
-            if (gameOfLife.loadGameBoardFromPatternFile(Objects.requireNonNull(Pattern.fromString(patternsCombo.getValue())).getPatternFile())) {
+            if (gameOfLife.loadGameBoardFromPatternFile(patternsCombo.getValue())) {
                 System.out.println("Pattern successfully added!");
                 //Trigger a redraw.
                 gameOfLife.setNeedsRedraw(true);
@@ -129,8 +139,8 @@ public class ControllerControlPanel implements Initializable {
             } else {
                 System.out.println("Pattern load failed!");
             }
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 

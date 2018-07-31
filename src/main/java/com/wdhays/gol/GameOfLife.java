@@ -292,13 +292,13 @@ public class GameOfLife {
     public boolean loadGameBoardFromFile(File selectedFile) throws IOException, NumberFormatException {
 
         if(selectedFile.canRead()) {
-
+            //Flag that will be set if the CSV files does not have the proper dimensions.
             boolean badFormatFlag = false;
-
-            //Load the file data into a 2d array of booleans.
-            System.out.println("We can load!");
+            //Load the file data into a 2d array of longs.
             long[][] newGameBoard = new long[gridSize][gridSize];
+            //Get the file stream.
             BufferedReader bufferedReader = new BufferedReader(new FileReader(selectedFile));
+            //Parse the file.
             String singleLine;
             int rowIndex = 0;
             while((singleLine = bufferedReader.readLine()) != null)
@@ -318,6 +318,7 @@ public class GameOfLife {
             }
             bufferedReader.close();
 
+            //Check if the file was properly formatted.
             if (badFormatFlag || rowIndex != gridSize) {
                 System.out.println("The file was not the correct format!");
                 return false;
@@ -333,13 +334,15 @@ public class GameOfLife {
         }
     }
 
-    public boolean loadGameBoardFromPatternFile(BufferedReader bufferedReader) throws IOException, NumberFormatException {
-        boolean badFormatFlag = false;
+    public boolean loadGameBoardFromPatternFile(String patternName) throws IOException, NumberFormatException {
 
-        //Load the file data into a 2d array of booleans.
-        System.out.println("We can load!");
+        //Flag that will be set if the CSV files does not have the proper dimensions.
+        boolean badFormatFlag = false;
+        //Load the file data into a 2d array of longs.
         long[][] newGameBoard = new long[gridSize][gridSize];
-        //BufferedReader bufferedReader = new BufferedReader(new FileReader(selectedFile));
+        //Get the file stream.
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("patterns/" + patternName + ".gol")));
+        //Parse the file.
         String singleLine;
         int rowIndex = 0;
         while((singleLine = bufferedReader.readLine()) != null)
@@ -359,6 +362,7 @@ public class GameOfLife {
         }
         bufferedReader.close();
 
+        //Check if the file was properly formatted.
         if (badFormatFlag || rowIndex != gridSize) {
             System.out.println("The file was not the correct format!");
             return false;

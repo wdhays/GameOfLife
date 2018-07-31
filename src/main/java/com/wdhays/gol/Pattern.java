@@ -22,26 +22,9 @@ public enum Pattern {
     CARNIVALSHUTTLE("Carnival-Shuttle");
 
     private String patternName;
-    private BufferedReader patternFileReader;
-    private Image patternImage;
 
     Pattern(String patternName) {
         this.patternName = patternName;
-        try {
-            this.patternFileReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("patterns/" + patternName + ".gol")));
-            this.patternImage = new Image(getClass().getResource("patterns/" + patternName + ".png").toString(), true);
-        } catch (NullPointerException | IllegalArgumentException e) {
-            System.out.println("Failed to load pattern File or Image!");
-            e.printStackTrace();
-        }
-    }
-
-    public BufferedReader getPatternFile() {
-        return patternFileReader;
-    }
-
-    public Image getPatternImage() {
-        return patternImage;
     }
 
     public String getPatternName() {
@@ -54,14 +37,5 @@ public enum Pattern {
             allNames.add(pattern.getPatternName());
         }
         return allNames;
-    }
-
-    public static Pattern fromString(String text) {
-        for (Pattern pattern : Pattern.values()) {
-            if (pattern.patternName.equalsIgnoreCase(text)) {
-                return pattern;
-            }
-        }
-        return null;
     }
 }

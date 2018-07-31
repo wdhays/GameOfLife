@@ -1,10 +1,5 @@
 package main.java.com.wdhays.gol;
 
-import javafx.scene.image.Image;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 

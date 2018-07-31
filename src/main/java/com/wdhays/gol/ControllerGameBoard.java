@@ -60,7 +60,7 @@ public class ControllerGameBoard implements Initializable {
     }
 
     private ChangeListener<Boolean> needsRedrawChangeListener() {
-        return new ChangeListener<>() {
+        return new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 gameOfLife.needsRedrawProperty().removeListener(this);

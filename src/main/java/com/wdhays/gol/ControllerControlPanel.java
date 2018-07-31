@@ -272,7 +272,7 @@ public class ControllerControlPanel implements Initializable {
         speedSlider.setMinorTickCount(0);
         speedSlider.setBlockIncrement(1);
         speedSlider.setSnapToTicks(true);
-        speedSlider.setLabelFormatter(new StringConverter<>() {
+        speedSlider.setLabelFormatter(new StringConverter<Double>() {
             @Override
             public String toString(Double n) {
                 if (n == 0) return GameSpeed.VERYSLOW.getLabel();
